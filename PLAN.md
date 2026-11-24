@@ -43,12 +43,12 @@ while staying simple enough for a small team to maintain.
 | Styling | **Tailwind CSS** with JesTech design tokens | Tiny CSS output, easy to keep one brand system |
 | UI icons | **lucide-react** (tree-shaken line icons) | Matches the “simple line icons” brand rule |
 | Database | **PostgreSQL** (Neon / Vercel Postgres / Supabase, managed backups) | Blueprint requirement |
-| ORM / migrations | **Prisma** | Typed schema doubles as the “database schema” handover doc |
-| Auth | **Auth.js (NextAuth v5)** — email+password and magic link; DB sessions | Roles stored in DB; no vendor lock-in |
+| ORM / migrations | **Drizzle ORM** + drizzle-kit | Lightweight, typed schema in one file (`src/db/schema.ts`) doubles as the schema handover doc; plain SQL migrations |
+| Auth | **Built-in session auth** — scrypt passwords, hashed session tokens in Postgres, HTTP-only cookies | Small, fully understood, no vendor lock-in; roles stored in DB |
 | File storage | **S3-compatible object storage** (Cloudflare R2 or Vercel Blob) via signed URLs | Size/type limits, access-controlled downloads |
 | Email | **Resend** (or any SMTP) | Inquiry notifications, password reset |
 | Search | **Postgres full-text search** (`tsvector` + GIN index) | No extra service for MVP |
-| Certificates | Server-rendered PDF (**pdf-lib**) + public verification page `/certificates/[code]` | Auto-issued, verifiable |
+| Certificates | Printable certificate page (“Print or save as PDF”) + public verification code `/certificates/[code]` | Auto-issued, verifiable, no extra library |
 | Validation | **Zod** on every server action / route handler | Input validation requirement |
 | Offline | **PWA service worker** caching the app shell + user-saved files (Cache API) | “Save offline” in MVP; full offline sync is Phase 3 |
 | Testing | **Vitest** (unit), **Playwright** (e2e, mobile viewport), Lighthouse CI budgets | |
@@ -255,3 +255,21 @@ Each milestone ends with a deployed Vercel preview, tests green, and a short dem
 
 Also needed from JesTech: final logo files, confirmation of fonts/tokens from the Academy site,
 domain (`nexus.jestech.org`?), hosting/storage/email accounts, and real course/library content.
+
+---
+
+## 11. Build status (updated 2026-11-24)
+
+| Milestone | Status |
+|---|---|
+| M0 Foundation | ✅ Next.js 16 + Tailwind tokens, design system, Drizzle schema + migrations, seed content, CI workflow |
+| M1 Public site + Courses | ✅ Home, About, Contact, Report an issue, Privacy; catalog with filters/search; course detail; lessons with checklists |
+| M2 Accounts & student area | ✅ Register/login, enrol, progress, points, badges, private progress mode, submissions, auto-issued verifiable certificates |
+| M3 Digital library | ✅ Search + filters, resource detail with source/date/licence/size, read online, download, Save offline (service worker) |
+| M4 Experts, partners, innovation | ✅ Approved-only listings, consultation / partnership / solution forms with consent, honeypot and rate limit, email hook |
+| M5 Admin & mentor | ✅ Overview, course/module/lesson editor, Draft → Review → Published workflow, library rights, expert/partner verification, innovation, inquiries, issue reports, users & roles, mentor assignment, audit log |
+| M6 Hardening & handover | 🟡 E2E journeys (21 checks) passing; docs written. Remaining: R2 file uploads, password reset email, Lighthouse/axe in CI, real content and reviewers |
+
+**Page weight (measured, Pixel 5, first visit):** ~235 KB compressed, of which ~150 KB is the React/Next.js runtime and
+~64 KB fonts; later page navigations fetch ~6–10 KB. The 150 KB first-load budget in §6 is not achievable with
+Next.js; the realistic target is ≤ 250 KB first load and ≤ 30 KB per subsequent page.
