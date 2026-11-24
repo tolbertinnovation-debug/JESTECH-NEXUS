@@ -42,7 +42,7 @@ export function Panel({ title, children, className }: { title?: string; children
 
 export function Table({ head, children }: { head: string[]; children: ReactNode }) {
   return (
-    <div className="overflow-x-auto rounded-card border border-line bg-paper">
+    <div className="relative overflow-x-auto rounded-card border border-line bg-paper">
       <table className="w-full min-w-[36rem] border-collapse text-sm">
         <thead className="bg-ink text-left text-paper">
           <tr>

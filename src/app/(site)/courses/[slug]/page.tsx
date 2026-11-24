@@ -30,7 +30,7 @@ export default async function CoursePage({ params }: Props) {
   return (
     <>
       <section className="bg-ink text-paper">
-        <div className="container-page grid gap-6 py-10 lg:grid-cols-[1fr_22rem] lg:items-start">
+        <div className="container-page grid grid-cols-1 gap-6 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
           <div>
             <div className="flex flex-wrap gap-2">
               <Badge tone="tint">
@@ -63,7 +63,7 @@ export default async function CoursePage({ params }: Props) {
         </div>
       </section>
 
-      <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_22rem]">
+      <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <section aria-labelledby="modules-heading">
           <h2 id="modules-heading" className="text-xl font-bold">
             Course modules

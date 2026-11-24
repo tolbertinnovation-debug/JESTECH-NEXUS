@@ -28,8 +28,9 @@ async function Profile() {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="container-page grid gap-6 py-6 lg:grid-cols-[13rem_1fr] lg:py-10">
-      <aside className="lg:border-r lg:border-line lg:pr-4">
+    <div className="container-page grid grid-cols-1 gap-6 py-6 lg:grid-cols-[13rem_minmax(0,1fr)] lg:py-10">
+      {/* min-w-0 lets the tab row scroll sideways on phones instead of widening the page */}
+      <aside className="min-w-0 lg:border-r lg:border-line lg:pr-4">
         <Suspense fallback={null}>
           <Profile />
         </Suspense>

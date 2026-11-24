@@ -44,7 +44,7 @@ async function Overview() {
         ))}
       </dl>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_22rem]">
+      <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-3">
           <h2 className="font-display font-semibold">Content review queue</h2>
           <Table head={["Item", "Owner / reviewer", "Status"]}>

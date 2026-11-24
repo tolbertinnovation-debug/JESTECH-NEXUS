@@ -28,6 +28,15 @@ async function visible(locator) {
   }
 }
 
+/** True when the page fits a 390px phone screen without sideways scrolling. */
+async function fitsPhone(page, path) {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+  const width = await page.evaluate(() => document.documentElement.scrollWidth);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  return width <= 390;
+}
+
 async function shot(page, name) {
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/${name}.png`, fullPage: true });
 }
@@ -169,6 +178,9 @@ const learner = await learnerCtx.newPage();
 
   await admin.goto(`${BASE}/admin`);
   check(await visible(admin.getByText("Consultation request").first()), "inquiry appears on admin overview");
+  for (const path of ["/dashboard", "/mentor", "/admin", "/admin/users", "/admin/inquiries"]) {
+    check(await fitsPhone(admin, path), `${path} fits a phone screen`);
+  }
   await shot(admin, "desktop-admin");
 
   await admin.goto(`${BASE}/admin/courses`);

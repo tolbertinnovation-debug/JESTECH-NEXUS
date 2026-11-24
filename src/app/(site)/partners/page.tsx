@@ -29,7 +29,7 @@ export default function PartnersPage({ searchParams }: Props) {
         title="Partners and institutions"
         intro="Schools, ministries, NGOs, businesses and communities collaborating on content, outreach, pilots, expertise and programmes."
       />
-      <div className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_24rem]">
+      <div className="container-page grid grid-cols-1 gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
         <section>
           <Suspense fallback={<div className="h-64" aria-busy />}>
             <PartnerList searchParams={searchParams} />
