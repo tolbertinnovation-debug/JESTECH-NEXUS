@@ -8,7 +8,7 @@ import { Markdown } from "@/components/markdown";
 import { SaveOfflineButton } from "@/components/offline";
 import { Button, ButtonLink, ProgressBar } from "@/components/ui";
 import { getCurrentUser } from "@/lib/auth";
-import { percent } from "@/lib/format";
+import { percent, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { flattenLessons, getAllLessonParams, getCourse, getLesson } from "@/modules/courses/queries";
 import { completeLessonAction } from "@/modules/learning/actions";
 import { getCourseProgress } from "@/modules/learning/queries";
@@ -16,7 +16,7 @@ import { getCourseProgress } from "@/modules/learning/queries";
 type Props = { params: Promise<{ slug: string; lesson: string }> };
 
 export async function generateStaticParams() {
-  return getAllLessonParams();
+  return atLeastOne(await getAllLessonParams(), { slug: PLACEHOLDER_SLUG, lesson: PLACEHOLDER_SLUG });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

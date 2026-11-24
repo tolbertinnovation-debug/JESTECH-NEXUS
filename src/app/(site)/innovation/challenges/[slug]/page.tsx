@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { InquiryForm } from "@/components/inquiry-form";
 import { Badge, Card } from "@/components/ui";
 import { getChallenge, getInnovation } from "@/modules/directory/queries";
@@ -9,7 +10,10 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
   const { challenges } = await getInnovation();
-  return challenges.map((c) => ({ slug: c.slug }));
+  return atLeastOne(
+    challenges.map((c) => ({ slug: c.slug })),
+    { slug: PLACEHOLDER_SLUG },
+  );
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
