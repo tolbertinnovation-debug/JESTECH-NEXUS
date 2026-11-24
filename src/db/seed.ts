@@ -4,7 +4,13 @@ import { Pool } from "pg";
 import { statSync } from "node:fs";
 import path from "node:path";
 import * as s from "./schema";
-import { challengeSeeds, courseSeeds, expertSeeds, innovationSeeds, resourceSeeds } from "./seed-data";
+import {
+  challengeSeeds,
+  courseSeeds,
+  expertSeeds,
+  innovationSeeds,
+  resourceSeeds,
+} from "./seed-data";
 import { hashPassword } from "../lib/password";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
@@ -29,29 +35,69 @@ function fileSize(publicPath: string | null): number | null {
 }
 
 async function main() {
-  const existing = await db.select({ id: s.courses.id }).from(s.courses).limit(1);
+  const existing = await db
+    .select({ id: s.courses.id })
+    .from(s.courses)
+    .limit(1);
   if (existing.length) {
-    console.log("Database already seeded — run `npm run db:reset` to start over.");
+    console.log(
+      "Database already seeded — run `npm run db:reset` to start over.",
+    );
     return;
   }
 
-  const passwordHash = await hashPassword(DEV_PASSWORD);
-  const [admin, , mentor, student] = await db
-    .insert(s.users)
-    .values([
-      { name: "Nexus Admin", email: "admin@nexus.local", passwordHash, role: "ADMIN" },
-      { name: "Content Editor", email: "editor@nexus.local", passwordHash, role: "EDITOR" },
-      { name: "Mentor Demo", email: "mentor@nexus.local", passwordHash, role: "MENTOR" },
-      { name: "Student Demo", email: "student@nexus.local", passwordHash, role: "STUDENT" },
-    ])
-    .returning();
-  await db.insert(s.mentorAssignments).values({ mentorId: mentor!.id, studentId: student!.id });
+  // On Vercel (production/preview) only real course and library content is loaded:
+  // no dev accounts with a known password, and no sample experts, partners or challenges.
+  const demo = !process.env.VERCEL && process.env.SEED_DEMO !== "false";
+  let ownerId: string | null = null;
+
+  if (demo) {
+    const passwordHash = await hashPassword(DEV_PASSWORD);
+    const [admin, , mentor, student] = await db
+      .insert(s.users)
+      .values([
+        {
+          name: "Nexus Admin",
+          email: "admin@nexus.local",
+          passwordHash,
+          role: "ADMIN",
+        },
+        {
+          name: "Content Editor",
+          email: "editor@nexus.local",
+          passwordHash,
+          role: "EDITOR",
+        },
+        {
+          name: "Mentor Demo",
+          email: "mentor@nexus.local",
+          passwordHash,
+          role: "MENTOR",
+        },
+        {
+          name: "Student Demo",
+          email: "student@nexus.local",
+          passwordHash,
+          role: "STUDENT",
+        },
+      ])
+      .returning();
+    await db
+      .insert(s.mentorAssignments)
+      .values({ mentorId: mentor!.id, studentId: student!.id });
+    ownerId = admin!.id;
+  }
 
   const resourceIds = new Map<string, string>();
   for (const r of resourceSeeds) {
     const [row] = await db
       .insert(s.resources)
-      .values({ ...r, sizeBytes: fileSize(r.fileUrl), readOnlineUrl: r.format === "PDF" ? r.fileUrl : null, status: "PUBLISHED" })
+      .values({
+        ...r,
+        sizeBytes: fileSize(r.fileUrl),
+        readOnlineUrl: r.format === "PDF" ? r.fileUrl : null,
+        status: "PUBLISHED",
+      })
       .returning({ id: s.resources.id });
     resourceIds.set(r.slug, row!.id);
   }
@@ -64,7 +110,7 @@ async function main() {
         ...course,
         guideResourceId: guideSlug ? resourceIds.get(guideSlug) : null,
         status: "PUBLISHED",
-        ownerId: admin!.id,
+        ownerId,
         publishedAt: new Date(),
       })
       .returning({ id: s.courses.id });
@@ -89,10 +135,24 @@ async function main() {
     }
   }
 
+  if (!demo) {
+    console.log(
+      "Seeded courses and library (no demo accounts or sample listings).",
+    );
+    return;
+  }
+
   const now = new Date();
-  await db.insert(s.experts).values(
-    expertSeeds.map((e) => ({ ...e, status: "APPROVED" as const, consentAt: now, verifiedAt: now })),
-  );
+  await db
+    .insert(s.experts)
+    .values(
+      expertSeeds.map((e) => ({
+        ...e,
+        status: "APPROVED" as const,
+        consentAt: now,
+        verifiedAt: now,
+      })),
+    );
   // Partners appear only after a formal agreement — seed one PENDING example, which stays hidden.
   await db.insert(s.partners).values({
     name: "Example Pending Partner",
@@ -100,10 +160,18 @@ async function main() {
     collaborationArea: "Content partnership",
     status: "PENDING",
   });
-  await db.insert(s.challenges).values(challengeSeeds.map((c) => ({ ...c, published: true })));
-  await db.insert(s.innovationItems).values(innovationSeeds.map((i) => ({ ...i, published: true, verifiedAt: now })));
+  await db
+    .insert(s.challenges)
+    .values(challengeSeeds.map((c) => ({ ...c, published: true })));
+  await db
+    .insert(s.innovationItems)
+    .values(
+      innovationSeeds.map((i) => ({ ...i, published: true, verifiedAt: now })),
+    );
 
-  console.log(`Seeded. Dev accounts (password "${DEV_PASSWORD}"): admin@, editor@, mentor@, student@nexus.local`);
+  console.log(
+    `Seeded. Dev accounts (password "${DEV_PASSWORD}"): admin@, editor@, mentor@, student@nexus.local`,
+  );
 }
 
 main()

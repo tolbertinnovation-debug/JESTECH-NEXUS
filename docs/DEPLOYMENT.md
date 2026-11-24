@@ -1,5 +1,8 @@
 # Deployment (Vercel + Neon)
 
+> Non-technical, browser-only walkthrough: see [GO-LIVE-GUIDE.md](GO-LIVE-GUIDE.md). On Vercel the `vercel-build`
+> script runs migrations and loads course/library content (no demo accounts) before building.
+
 Create every account under a JesTech organisation email, not a personal one.
 
 ## 1. Database: Neon
