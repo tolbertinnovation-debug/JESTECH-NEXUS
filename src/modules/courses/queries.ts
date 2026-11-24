@@ -38,7 +38,7 @@ export async function getCatalog(filters: CatalogFilters) {
       format: courses.format,
       icon: courses.icon,
       isPilot: courses.isPilot,
-      moduleCount: sql<number>`(select count(*)::int from ${courseModules} where ${courseModules.courseId} = ${courses.id})`,
+      moduleCount: sql<number>`(select count(*)::int from course_modules cm where cm.course_id = "courses"."id")`,
     })
     .from(courses)
     .where(and(...where))

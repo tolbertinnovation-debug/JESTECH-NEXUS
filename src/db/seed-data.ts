@@ -91,7 +91,7 @@ export const courseSeeds: CourseSeed[] = [
         lessons: [
           {
             title: "Preparing the land",
-            summary: "Short lesson with clear, locally understandable steps and images.",
+            summary: "Clear the site, mark rows and prepare mounds or ridges.",
             body: `Good preparation makes planting, weeding and harvesting easier.\n\n### Steps\n- **Clear the site** of bush, stumps and large stones\n- **Mark planting rows** so plants are evenly spaced\n- **Prepare mounds or ridges** — these help water drain and make roots easier to harvest, especially on heavier soils\n\nOn loose, well-drained soil, cassava can also be planted on flat land.\n\n${DRAFT_NOTE}`,
             checklist: ["Clear the site", "Mark planting rows", "Prepare mounds or ridges"],
           },

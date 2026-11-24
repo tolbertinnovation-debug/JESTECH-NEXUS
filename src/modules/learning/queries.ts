@@ -42,8 +42,8 @@ export async function getDashboard(userId: string) {
       slug: courses.slug,
       title: courses.title,
       completedAt: enrollments.completedAt,
-      total: sql<number>`(select count(*)::int from ${lessons} l join ${courseModules} m on m.id = l.module_id where m.course_id = ${courses.id})`,
-      done: sql<number>`(select count(*)::int from ${lessonProgress} p join ${lessons} l on l.id = p.lesson_id join ${courseModules} m on m.id = l.module_id where m.course_id = ${courses.id} and p.user_id = ${userId})`,
+      total: sql<number>`(select count(*)::int from lessons l join course_modules m on m.id = l.module_id where m.course_id = "courses"."id")`,
+      done: sql<number>`(select count(*)::int from lesson_progress p join lessons l on l.id = p.lesson_id join course_modules m on m.id = l.module_id where m.course_id = "courses"."id" and p.user_id = ${userId})`,
     })
     .from(enrollments)
     .innerJoin(courses, eq(courses.id, enrollments.courseId))
@@ -59,7 +59,7 @@ export async function getDashboard(userId: string) {
         slug: lessons.slug,
         title: lessons.title,
         modulePosition: courseModules.position,
-        done: sql<boolean>`exists (select 1 from ${lessonProgress} p where p.lesson_id = ${lessons.id} and p.user_id = ${userId})`,
+        done: sql<boolean>`exists (select 1 from lesson_progress p where p.lesson_id = "lessons"."id" and p.user_id = ${userId})`,
       })
       .from(lessons)
       .innerJoin(courseModules, eq(courseModules.id, lessons.moduleId))

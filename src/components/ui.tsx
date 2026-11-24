@@ -86,9 +86,20 @@ const tones: Record<Tone, string> = {
   outline: "border border-line text-ink-muted",
 };
 
-export function Badge({ tone = "tint", children, className }: { tone?: Tone; children: ReactNode; className?: string }) {
+export function Badge({
+  tone = "tint",
+  children,
+  className,
+  title,
+}: {
+  tone?: Tone;
+  children: ReactNode;
+  className?: string;
+  title?: string;
+}) {
   return (
     <span
+      title={title}
       className={cx(
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap",
         tones[tone],

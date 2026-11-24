@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { Suspense, useState, type ReactNode } from "react";
 import { Menu, X } from "lucide-react";
 import { cx } from "./ui";
 
@@ -21,10 +21,22 @@ function isActive(pathname: string, href: string) {
 
 /** Desktop links + thumb-friendly mobile drawer. `account` is the server-rendered login/user area. */
 export function SiteNav({ account }: { account: ReactNode }) {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  // The pathname is request data on dynamic routes; the fallback is the same nav without highlighting.
+  return (
+    <Suspense fallback={<NavInner account={account} pathname="" />}>
+      <NavWithPath account={account} />
+    </Suspense>
+  );
+}
 
-  useEffect(() => setOpen(false), [pathname]);
+function NavWithPath({ account }: { account: ReactNode }) {
+  return <NavInner account={account} pathname={usePathname()} />;
+}
+
+function NavInner({ account, pathname }: { account: ReactNode; pathname: string }) {
+  // Menu is "open for this path" — navigating anywhere closes it without an effect.
+  const [openAt, setOpenAt] = useState<string | null>(null);
+  const open = openAt === pathname;
 
   return (
     <>
@@ -51,7 +63,7 @@ export function SiteNav({ account }: { account: ReactNode }) {
         aria-expanded={open}
         aria-controls="mobile-menu"
         aria-label={open ? "Close menu" : "Open menu"}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => setOpenAt(open ? null : pathname)}
       >
         {open ? <X aria-hidden /> : <Menu aria-hidden />}
       </button>

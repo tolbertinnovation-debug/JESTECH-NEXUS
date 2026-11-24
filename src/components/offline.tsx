@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { CheckCircle2, Download, Trash2, WifiOff } from "lucide-react";
 import { buttonClass } from "./ui";
 
@@ -16,12 +16,36 @@ function readMeta(): SavedMeta[] {
     return [];
   }
 }
+const CHANGE_EVENT = "nexus-saved-change";
+
 function writeMeta(list: SavedMeta[]) {
   try {
     localStorage.setItem(META_KEY, JSON.stringify(list));
   } catch {
     /* storage unavailable: saving still works, the list just won't show titles */
   }
+  window.dispatchEvent(new Event(CHANGE_EVENT));
+}
+
+function subscribeMeta(cb: () => void) {
+  window.addEventListener(CHANGE_EVENT, cb);
+  window.addEventListener("storage", cb);
+  return () => {
+    window.removeEventListener(CHANGE_EVENT, cb);
+    window.removeEventListener("storage", cb);
+  };
+}
+function metaSnapshot() {
+  try {
+    return localStorage.getItem(META_KEY) ?? "[]";
+  } catch {
+    return "[]";
+  }
+}
+
+const noopSubscribe = () => () => {};
+function useCacheSupported() {
+  return useSyncExternalStore(noopSubscribe, () => "caches" in window, () => true);
 }
 
 /** Registers the service worker once (production only, so dev reloads stay predictable). */
@@ -48,14 +72,12 @@ export function SaveOfflineButton({
   title?: string;
   size?: "sm" | "md";
 }) {
-  const [state, setState] = useState<"idle" | "saving" | "saved" | "error" | "unsupported">("idle");
+  const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const supported = useCacheSupported();
   const primary = urls[0]!;
 
   useEffect(() => {
-    if (!("caches" in window)) {
-      setState("unsupported");
-      return;
-    }
+    if (!("caches" in window)) return;
     caches
       .open(SAVED)
       .then((c) => c.match(primary))
@@ -77,7 +99,7 @@ export function SaveOfflineButton({
     }
   }
 
-  if (state === "unsupported") return null;
+  if (!supported) return null;
   if (state === "saved")
     return (
       <span className="inline-flex min-h-9 items-center gap-1.5 text-sm font-semibold text-ink-muted">
@@ -94,18 +116,20 @@ export function SaveOfflineButton({
 
 /** Lists everything saved on this device. */
 export function SavedOnDevice() {
-  const [items, setItems] = useState<SavedMeta[] | null>(null);
-
-  useEffect(() => {
-    setItems(readMeta());
-  }, []);
+  const raw = useSyncExternalStore(subscribeMeta, metaSnapshot, () => null);
+  let items: SavedMeta[] | null = null;
+  if (raw !== null) {
+    try {
+      items = JSON.parse(raw) as SavedMeta[];
+    } catch {
+      items = [];
+    }
+  }
 
   async function remove(item: SavedMeta) {
     const cache = await caches.open(SAVED);
     await Promise.all([item.url, ...(item.files ?? [])].map((u) => cache.delete(u)));
-    const next = readMeta().filter((m) => m.url !== item.url);
-    writeMeta(next);
-    setItems(next);
+    writeMeta(readMeta().filter((m) => m.url !== item.url));
   }
 
   if (items === null) return null;
