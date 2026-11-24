@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { Check, CheckCircle2, Download, FileText, ListChecks, PlayCircle, ShieldCheck } from "lucide-react";
 import { Badge, Button, ButtonLink, Card, ProgressBar } from "@/components/ui";
 import { getCurrentUser } from "@/lib/auth";
-import { formatBytes, formatLabel, levelLabel, percent } from "@/lib/format";
+import { formatBytes, formatLabel, levelLabel, percent, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { flattenLessons, getCourse, getPublishedCourseSlugs, type CourseWithModules } from "@/modules/courses/queries";
 import { enrolAction } from "@/modules/learning/actions";
 import { getCourseProgress } from "@/modules/learning/queries";
@@ -13,7 +13,7 @@ import { getCourseProgress } from "@/modules/learning/queries";
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return getPublishedCourseSlugs();
+  return atLeastOne(await getPublishedCourseSlugs(), { slug: PLACEHOLDER_SLUG });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

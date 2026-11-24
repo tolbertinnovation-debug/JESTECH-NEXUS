@@ -4,13 +4,13 @@ import { notFound } from "next/navigation";
 import { Download } from "lucide-react";
 import { SaveOfflineButton } from "@/components/offline";
 import { Badge, buttonClass } from "@/components/ui";
-import { formatBytes, licenceLabel } from "@/lib/format";
+import { formatBytes, licenceLabel, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { getResource, getResourceSlugs } from "@/modules/library/queries";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
-  return getResourceSlugs();
+  return atLeastOne(await getResourceSlugs(), { slug: PLACEHOLDER_SLUG });
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

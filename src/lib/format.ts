@@ -43,3 +43,13 @@ export function percent(done: number, total: number): number {
 export function safeNext(next: unknown, fallback = "/dashboard"): string {
   return typeof next === "string" && next.startsWith("/") && !next.startsWith("//") ? next : fallback;
 }
+
+/**
+ * Cache Components requires generateStaticParams to return at least one entry. When the
+ * database has no rows yet (e.g. a fresh production database), fall back to a placeholder
+ * path that renders the not-found page, so the build never fails on empty content.
+ */
+export const PLACEHOLDER_SLUG = "__none__";
+export function atLeastOne<T extends Record<string, string>>(params: T[], placeholder: T): T[] {
+  return params.length > 0 ? params : [placeholder];
+}
