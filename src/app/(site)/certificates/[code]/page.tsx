@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { BadgeCheck } from "lucide-react";
 import { getCertificate } from "@/modules/learning/queries";
+import { LogoMark } from "@/components/logo-mark";
 import { PrintButton } from "@/components/print-button";
 
 type Props = { params: Promise<{ code: string }> };
@@ -34,7 +35,7 @@ async function Certificate({ params }: Props) {
       <article className="mx-auto max-w-3xl border-4 border-ink p-2">
         <div className="border border-brand px-6 py-12 text-center sm:px-12">
           <p className="inline-flex items-center gap-2 font-display text-lg font-bold">
-            <span className="inline-flex h-7 w-8 items-center justify-center rounded-md bg-brand text-sm">JT</span>
+            <LogoMark className="h-9 w-auto" />
             JesTech Nexus
           </p>
           <p className="eyebrow mt-6">Certificate of completion</p>

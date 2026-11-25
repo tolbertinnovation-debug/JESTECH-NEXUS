@@ -2,18 +2,22 @@ import { Fragment, type ReactNode } from "react";
 
 /**
  * Tiny, safe renderer for the lesson markdown subset: paragraphs, "### " headings,
- * "- " bullet lists and **bold**. Produces React elements only — never raw HTML.
+ * "- " bullet lists, **bold**, `inline code` and ``` fenced code blocks.
+ * Produces React elements only — never raw HTML, so lesson text can't inject markup.
  */
 function inline(text: string): ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((p, i) =>
-    p.startsWith("**") && p.endsWith("**") ? <strong key={i}>{p.slice(2, -2)}</strong> : <Fragment key={i}>{p}</Fragment>,
-  );
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  return parts.map((p, i) => {
+    if (p.startsWith("**") && p.endsWith("**")) return <strong key={i}>{p.slice(2, -2)}</strong>;
+    if (p.length > 2 && p.startsWith("`") && p.endsWith("`")) return <code key={i}>{p.slice(1, -1)}</code>;
+    return <Fragment key={i}>{p}</Fragment>;
+  });
 }
 
 export function Markdown({ source }: { source: string }) {
   const out: ReactNode[] = [];
   let list: string[] = [];
+  let code: string[] | null = null;
   const flush = () => {
     if (list.length) {
       out.push(
@@ -27,6 +31,24 @@ export function Markdown({ source }: { source: string }) {
     }
   };
   for (const raw of source.split("\n")) {
+    if (raw.trim().startsWith("```")) {
+      if (code) {
+        out.push(
+          <pre key={out.length}>
+            <code>{code.join("\n")}</code>
+          </pre>,
+        );
+        code = null;
+      } else {
+        flush();
+        code = [];
+      }
+      continue;
+    }
+    if (code) {
+      code.push(raw);
+      continue;
+    }
     const line = raw.trim();
     if (line.startsWith("- ")) {
       list.push(line.slice(2));

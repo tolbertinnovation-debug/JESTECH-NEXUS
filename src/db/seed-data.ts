@@ -1,3 +1,5 @@
+import { contentFor } from "./content";
+
 /**
  * Development / demo content. Names, figures and sample content are placeholders
  * (as the blueprint states) and must be replaced and reviewed before launch.
@@ -23,19 +25,15 @@ export type CourseSeed = {
   modules: ModuleSeed[];
 };
 
-/** Quick helper for courses whose lessons are still outlines. */
-const outline = (titles: string[], topic: string): ModuleSeed[] =>
-  titles.map((title) => ({
-    title,
-    lessons: [
-      {
-        title,
-        summary: `Key ideas and a short practice task on ${title.toLowerCase()}.`,
-        body: `This lesson introduces **${title.toLowerCase()}** as part of ${topic}.\n\nFull lesson content is being written and reviewed by the JesTech team. Use the checklist to practise what you learn.`,
-        checklist: ["Read the lesson summary", "Try the short practice task", "Note one question for your mentor"],
-      },
-    ],
+/** Full lessons for the technology, business and teaching courses, from src/db/content. */
+const fromContent = (slug: string): ModuleSeed[] => {
+  const course = contentFor(slug);
+  if (!course) throw new Error(`No content for ${slug}`);
+  return course.lessons.map((l) => ({
+    title: l.title,
+    lessons: [{ title: l.title, summary: l.summary, body: l.body, checklist: l.checklist, minutes: l.minutes }],
   }));
+};
 
 const DRAFT_NOTE =
   "Draft lesson for the pilot. It must be checked by qualified agricultural reviewers and tested with farmers before launch.";
@@ -179,10 +177,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "Solve a local problem with an AI assistant",
       prompt: "Use an AI assistant to help plan a solution to a small local problem. Share what you asked, what it answered, and what you checked or corrected.",
     },
-    modules: outline(
-      ["What AI is", "Talking to AI assistants", "Checking AI answers", "AI for study and work", "Privacy and safety", "Your AI project"],
-      "AI literacy",
-    ),
+    modules: fromContent("ai-literacy"),
   },
   {
     slug: "web-development-fundamentals",
@@ -199,10 +194,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "Publish a personal or community website",
       prompt: "Build a small website for yourself, a local business or a community group and publish it. Submit the live link and your GitHub repository.",
     },
-    modules: outline(
-      ["How the web works", "HTML structure", "CSS basics", "Layouts with flexbox", "Responsive layouts", "Forms and accessibility", "A little JavaScript", "Publishing your site"],
-      "web development",
-    ),
+    modules: fromContent("web-development-fundamentals"),
   },
   {
     slug: "cybersecurity-awareness",
@@ -218,7 +210,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "Secure your digital life",
       prompt: "Complete the security checklist on your own phone and accounts. Describe three changes you made (do not share passwords or private details).",
     },
-    modules: outline(["Why security matters", "Passwords and 2-step verification", "Scams and phishing", "Mobile money safety", "Securing your phone"], "cybersecurity"),
+    modules: fromContent("cybersecurity-awareness"),
   },
   {
     slug: "data-analysis-basics",
@@ -234,7 +226,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "Answer a question with data",
       prompt: "Collect a small dataset (for example market prices for a week), analyse it in a spreadsheet and share a link with your chart and conclusion.",
     },
-    modules: outline(["Asking good questions", "Spreadsheets basics", "Cleaning data", "Summaries and formulas", "Charts", "Presenting findings"], "data analysis"),
+    modules: fromContent("data-analysis-basics"),
   },
   {
     slug: "graphic-design-essentials",
@@ -250,7 +242,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "Design a community poster",
       prompt: "Design a poster for a real local event or message. Submit the design file or a screenshot and explain your choices.",
     },
-    modules: outline(["Design principles", "Colour", "Typography", "Layout and hierarchy", "Designing for phones", "Free design tools", "Portfolio"], "graphic design"),
+    modules: fromContent("graphic-design-essentials"),
   },
   {
     slug: "start-a-small-business",
@@ -267,7 +259,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "One-page business plan",
       prompt: "Write a one-page plan for a small business idea using the workbook. Share it as a document or photo.",
     },
-    modules: outline(["Finding an idea", "Knowing your customer", "Costs and pricing", "Record keeping", "Your one-page plan"], "starting a small business"),
+    modules: fromContent("start-a-small-business"),
   },
   {
     slug: "digital-literacy-for-teachers",
@@ -284,7 +276,7 @@ export const courseSeeds: CourseSeed[] = [
       title: "Plan a digital-literacy lesson",
       prompt: "Plan one lesson that teaches a digital skill to your learners. Share your lesson plan.",
     },
-    modules: outline(["Devices and files", "Finding good resources", "Lesson planning tools", "Teaching online safety", "Low-data teaching"], "digital literacy for teachers"),
+    modules: fromContent("digital-literacy-for-teachers"),
   },
 ];
 
