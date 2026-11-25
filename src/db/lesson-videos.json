@@ -1,0 +1,69 @@
+{
+  "courseSlug": "grow-cassava",
+  "credit": "Narrated illustration video by JesTech. Synthetic voice: Piper TTS (LibriTTS voice, CC BY 4.0).",
+  "lessons": {
+    "choosing-a-good-site": {
+      "videoUrl": "/videos/grow-cassava/choosing-a-good-site.mp4",
+      "videoPoster": "/videos/grow-cassava/choosing-a-good-site.jpg",
+      "videoCaptions": "/videos/grow-cassava/choosing-a-good-site.vtt",
+      "videoDurationSec": 51,
+      "videoSizeBytes": 416621
+    },
+    "healthy-stems-make-healthy-plants": {
+      "videoUrl": "/videos/grow-cassava/healthy-stems-make-healthy-plants.mp4",
+      "videoPoster": "/videos/grow-cassava/healthy-stems-make-healthy-plants.jpg",
+      "videoCaptions": "/videos/grow-cassava/healthy-stems-make-healthy-plants.vtt",
+      "videoDurationSec": 50,
+      "videoSizeBytes": 425567
+    },
+    "preparing-the-land": {
+      "videoUrl": "/videos/grow-cassava/preparing-the-land.mp4",
+      "videoPoster": "/videos/grow-cassava/preparing-the-land.jpg",
+      "videoCaptions": "/videos/grow-cassava/preparing-the-land.vtt",
+      "videoDurationSec": 37,
+      "videoSizeBytes": 313899
+    },
+    "planting-your-cuttings": {
+      "videoUrl": "/videos/grow-cassava/planting-your-cuttings.mp4",
+      "videoPoster": "/videos/grow-cassava/planting-your-cuttings.jpg",
+      "videoCaptions": "/videos/grow-cassava/planting-your-cuttings.vtt",
+      "videoDurationSec": 39,
+      "videoSizeBytes": 352583
+    },
+    "caring-for-young-cassava": {
+      "videoUrl": "/videos/grow-cassava/caring-for-young-cassava.mp4",
+      "videoPoster": "/videos/grow-cassava/caring-for-young-cassava.jpg",
+      "videoCaptions": "/videos/grow-cassava/caring-for-young-cassava.vtt",
+      "videoDurationSec": 32,
+      "videoSizeBytes": 289126
+    },
+    "spotting-and-managing-problems": {
+      "videoUrl": "/videos/grow-cassava/spotting-and-managing-problems.mp4",
+      "videoPoster": "/videos/grow-cassava/spotting-and-managing-problems.jpg",
+      "videoCaptions": "/videos/grow-cassava/spotting-and-managing-problems.vtt",
+      "videoDurationSec": 47,
+      "videoSizeBytes": 400375
+    },
+    "when-and-how-to-harvest": {
+      "videoUrl": "/videos/grow-cassava/when-and-how-to-harvest.mp4",
+      "videoPoster": "/videos/grow-cassava/when-and-how-to-harvest.jpg",
+      "videoCaptions": "/videos/grow-cassava/when-and-how-to-harvest.vtt",
+      "videoDurationSec": 41,
+      "videoSizeBytes": 353785
+    },
+    "handling-and-processing": {
+      "videoUrl": "/videos/grow-cassava/handling-and-processing.mp4",
+      "videoPoster": "/videos/grow-cassava/handling-and-processing.jpg",
+      "videoCaptions": "/videos/grow-cassava/handling-and-processing.vtt",
+      "videoDurationSec": 39,
+      "videoSizeBytes": 357527
+    },
+    "selling-your-produce": {
+      "videoUrl": "/videos/grow-cassava/selling-your-produce.mp4",
+      "videoPoster": "/videos/grow-cassava/selling-your-produce.jpg",
+      "videoCaptions": "/videos/grow-cassava/selling-your-produce.vtt",
+      "videoDurationSec": 41,
+      "videoSizeBytes": 346926
+    }
+  }
+}

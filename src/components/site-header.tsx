@@ -49,7 +49,7 @@ function AccountFallback() {
 
 export function SiteHeader() {
   return (
-    <header className="relative z-30 bg-ink text-paper">
+    <header className="sticky top-0 z-30 border-b border-paper/10 bg-ink text-paper">
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Logo />
         <SiteNav
@@ -64,29 +64,64 @@ export function SiteHeader() {
   );
 }
 
+const footerColumns = [
+  {
+    title: "Learn",
+    links: [
+      ["/courses", "Courses"],
+      ["/library", "Digital library"],
+      ["/offline", "Saved on this device"],
+    ],
+  },
+  {
+    title: "Connect",
+    links: [
+      ["/experts", "Experts"],
+      ["/partners", "Partners"],
+      ["/innovation", "Innovation"],
+    ],
+  },
+  {
+    title: "JesTech",
+    links: [
+      ["/about", "About"],
+      ["/contact", "Contact"],
+      ["/report", "Report an issue"],
+      ["/privacy", "Privacy"],
+    ],
+  },
+] as const;
+
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-paper/80">
-      <div className="container-page flex flex-col gap-4 py-8 text-sm sm:flex-row sm:items-center sm:justify-between">
-        <p>
-          <span className="font-semibold text-paper">JesTech Nexus</span>
-          <span className="mx-2 text-paper/40">|</span>
-          Journey Empowering Solutions Through Technology
+    <footer className="bg-ink text-paper/75">
+      <div className="container-page grid grid-cols-2 gap-8 py-12 sm:grid-cols-4">
+        <div className="col-span-2 sm:col-span-1">
+          <Logo className="text-paper" />
+          <p className="mt-3 max-w-xs text-sm leading-relaxed">
+            Journey Empowering Solutions Through Technology. Practical skills, local knowledge and expertise for
+            Liberia.
+          </p>
+        </div>
+        {footerColumns.map((col) => (
+          <nav key={col.title} aria-label={col.title}>
+            <p className="font-display text-sm font-semibold text-paper">{col.title}</p>
+            <ul className="mt-3 space-y-2 text-sm">
+              {col.links.map(([href, label]) => (
+                <li key={href}>
+                  <Link href={href} className="inline-block py-0.5 hover:text-brand">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))}
+      </div>
+      <div className="border-t border-paper/10">
+        <p className="container-page py-5 text-xs text-paper/55">
+          JesTech Nexus · Built mobile-first for low-bandwidth connections. Lessons and files can be saved for offline use.
         </p>
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2">
-          <Link href="/about" className="hover:text-paper">
-            About
-          </Link>
-          <Link href="/contact" className="hover:text-paper">
-            Contact
-          </Link>
-          <Link href="/report" className="hover:text-paper">
-            Report an issue
-          </Link>
-          <Link href="/privacy" className="hover:text-paper">
-            Privacy
-          </Link>
-        </nav>
       </div>
     </footer>
   );

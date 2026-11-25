@@ -48,6 +48,8 @@ const slug = z
   .max(80)
   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "use lowercase letters, numbers and hyphens");
 const optionalText = (n: number) => z.string().trim().max(n).optional().transform((v) => (v ? v : null));
+const optionalInt = (max: number) =>
+  z.preprocess((v) => (v === "" || v == null ? null : Number(v)), z.number().int().min(0).max(max).nullable());
 const checkbox = z.preprocess((v) => v === "on" || v === "true", z.boolean());
 const lines = z.string().transform((s) =>
   s
@@ -166,6 +168,12 @@ const lessonSchema = z.object({
   body: z.string().max(20000).default(""),
   checklist: lines,
   estMinutes: z.coerce.number().int().min(1).max(240).default(10),
+  videoUrl: optionalText(500),
+  videoPoster: optionalText(500),
+  videoCaptions: optionalText(500),
+  videoDurationSec: optionalInt(60 * 60 * 3),
+  videoSizeBytes: optionalInt(2_000_000_000),
+  videoCredit: optionalText(300),
 });
 
 export async function saveLessonAction(_p: ActionState, fd: FormData): Promise<ActionState> {
@@ -173,6 +181,9 @@ export async function saveLessonAction(_p: ActionState, fd: FormData): Promise<A
   const parsed = lessonSchema.safeParse(Object.fromEntries(fd));
   if (!parsed.success) return fail(parsed.error);
   const { id, courseId, ...data } = parsed.data;
+  for (const u of [data.videoUrl, data.videoPoster, data.videoCaptions]) {
+    if (u && !(u.startsWith("/") || u.startsWith("https://"))) return { errors: ["Video links must start with https:// or /"] };
+  }
   let lessonId = id || undefined;
   if (lessonId) {
     await db.update(lessons).set(data).where(eq(lessons.id, lessonId));

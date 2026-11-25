@@ -3,7 +3,7 @@
  * - "nexus-static": hashed build assets (CSS/JS/fonts), cache-first.
  * - "nexus-pages": last copy of visited pages, used only when the network fails.
  */
-const VERSION = "v1";
+const VERSION = "v2";
 const STATIC = `nexus-static-${VERSION}`;
 const PAGES = `nexus-pages-${VERSION}`;
 const SAVED = "nexus-saved";
@@ -57,8 +57,8 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Library files: serve a saved copy first (no data used), else network.
-  if (url.pathname.startsWith("/files/")) {
+  // Library files and lesson videos: serve a saved copy first (no data used), else network.
+  if (url.pathname.startsWith("/files/") || url.pathname.startsWith("/videos/")) {
     event.respondWith(fromSaved(request).then((hit) => hit || fetch(request)));
     return;
   }

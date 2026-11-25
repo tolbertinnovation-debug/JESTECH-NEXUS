@@ -12,6 +12,7 @@ import {
   resourceSeeds,
 } from "./seed-data";
 import { hashPassword } from "../lib/password";
+import lessonVideos from "./lesson-videos.json";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool, { schema: s });
@@ -32,6 +33,13 @@ function fileSize(publicPath: string | null): number | null {
   } catch {
     return null;
   }
+}
+
+/** Narrated video fields for a lesson, from src/db/lesson-videos.json (built by scripts/videos). */
+function videoFor(courseSlug: string, lessonSlug: string) {
+  if (courseSlug !== lessonVideos.courseSlug) return {};
+  const v = (lessonVideos.lessons as Record<string, (typeof lessonVideos.lessons)[keyof typeof lessonVideos.lessons]>)[lessonSlug];
+  return v ? { ...v, videoCredit: lessonVideos.credit } : {};
 }
 
 async function main() {
@@ -130,6 +138,7 @@ async function main() {
           body: l.body,
           checklist: l.checklist,
           estMinutes: l.minutes ?? 10,
+          ...videoFor(c.slug, slugify(l.title)),
         })),
       );
     }

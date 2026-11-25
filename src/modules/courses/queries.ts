@@ -78,7 +78,7 @@ export async function getCourse(slug: string) {
         with: {
           lessons: {
             orderBy: asc(lessons.position),
-            columns: { id: true, slug: true, title: true, summary: true, estMinutes: true, checklist: true },
+            columns: { id: true, slug: true, title: true, summary: true, estMinutes: true, checklist: true, videoDurationSec: true },
           },
         },
       },

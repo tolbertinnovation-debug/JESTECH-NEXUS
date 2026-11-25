@@ -40,7 +40,7 @@ function SideNavWithPath(props: Props) {
 
 function SideNavInner({ links, dark, pathname }: Props & { pathname: string }) {
   return (
-    <nav aria-label="Section" className="flex gap-1 overflow-x-auto lg:flex-col">
+    <nav aria-label="Section" className="no-scrollbar -mx-4 flex gap-1.5 overflow-x-auto px-4 sm:mx-0 sm:px-0 lg:flex-col lg:gap-1">
       {links.map(({ href, label, icon, exact }) => {
         const Icon = icons[icon];
         const active = exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
@@ -50,14 +50,14 @@ function SideNavInner({ links, dark, pathname }: Props & { pathname: string }) {
             href={href}
             aria-current={active ? "page" : undefined}
             className={cx(
-              "flex min-h-11 shrink-0 items-center gap-2 rounded-md px-3 text-sm whitespace-nowrap transition-colors",
+              "flex min-h-10 shrink-0 items-center gap-2 rounded-full px-3.5 text-sm whitespace-nowrap transition-colors lg:min-h-11 lg:rounded-md",
               active
                 ? dark
                   ? "bg-brand font-semibold text-ink"
                   : "bg-ink font-semibold text-paper"
                 : dark
-                  ? "text-paper/80 hover:bg-paper/10 hover:text-paper"
-                  : "text-ink-muted hover:bg-mist",
+                  ? "bg-paper/5 text-paper/80 hover:bg-paper/10 hover:text-paper lg:bg-transparent"
+                  : "bg-mist text-ink-muted hover:bg-line lg:bg-transparent lg:hover:bg-mist",
             )}
           >
             <Icon className="size-4" aria-hidden />
