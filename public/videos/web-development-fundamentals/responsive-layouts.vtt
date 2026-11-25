@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.187
+A responsive page changes its layout to fit any screen.
+
+00:00:05.040 --> 00:00:10.465
+First, add the viewport meta tag, or phones show a tiny zoomed-out page.
+
+00:00:11.020 --> 00:00:15.877
+Design for phones first: one column, big text, large buttons.
+
+00:00:16.430 --> 00:00:20.834
+Then use media queries to change the layout on bigger screens.
+
+00:00:21.380 --> 00:00:23.624
+And always test on a real phone.
+
+00:00:24.170 --> 00:00:35.186
+Before you move on, check: Add the viewport meta tag. Write phone styles first. Add one media query for wider screens. Test on a real phone.
+
+00:00:35.940 --> 00:00:39.287
+In the next lesson: Forms and accessibility.

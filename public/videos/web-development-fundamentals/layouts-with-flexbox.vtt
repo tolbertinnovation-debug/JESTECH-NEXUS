@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.372
+Flexbox is the easiest way to place items in a row or a column.
+
+00:00:05.220 --> 00:00:09.682
+Set display flex on a container, and its children sit in a row.
+
+00:00:10.230 --> 00:00:12.892
+Gap adds even space between the items.
+
+00:00:13.440 --> 00:00:18.099
+Justify content spreads items along the row, for example space between.
+
+00:00:18.650 --> 00:00:22.984
+And flex wrap lets items move to the next line on small screens.
+
+00:00:23.530 --> 00:00:33.977
+Before you move on, check: Make a row of three cards with display: flex. Add a gap between them. Centre them with justify-content. Let them wrap on small screens.
+
+00:00:34.730 --> 00:00:37.822
+In the next lesson: Responsive layouts.

@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.777
+Real data is messy. Clean it first, and your answers will be right.
+
+00:00:05.630 --> 00:00:09.372
+Choose one spelling for each name, and use it everywhere.
+
+00:00:09.920 --> 00:00:12.025
+Remove records that were entered twice.
+
+00:00:12.570 --> 00:00:19.029
+Convert prices to one currency, L R D or U S D, and note the exchange rate.
+
+00:00:19.580 --> 00:00:23.833
+Sort each column to spot numbers that are far too big or too small.
+
+00:00:24.380 --> 00:00:29.028
+Always keep the raw data untouched, clean a copy, and write down what you changed.
+
+00:00:29.580 --> 00:00:39.981
+Before you move on, check: Fix inconsistent spellings. Remove duplicate rows. Convert all money to one currency. Keep the raw data untouched.
+
+00:00:40.730 --> 00:00:43.764
+In the next lesson: Summaries and formulas.

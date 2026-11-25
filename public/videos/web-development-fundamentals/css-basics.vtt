@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:02.712
+CSS describes how your HTML should look.
+
+00:00:03.560 --> 00:00:09.009
+A CSS rule starts with a selector: what to style, like h1.
+
+00:00:09.560 --> 00:00:13.975
+Then declarations: how to style it, like colour and font size.
+
+00:00:14.530 --> 00:00:18.400
+Save it in style dot css, and link it inside the head.
+
+00:00:18.950 --> 00:00:23.934
+Every element is a box with content, padding, a border and a margin.
+
+00:00:24.480 --> 00:00:28.917
+Padding is space inside the box. Margin is space outside it.
+
+00:00:29.470 --> 00:00:42.460
+Before you move on, check: Create style.css and link it. Change a heading colour and font size. Use padding and margin on a box. Style an element with a class.
+
+00:00:43.210 --> 00:00:46.778
+In the next lesson: Layouts with flexbox.

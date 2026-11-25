@@ -1,69 +1,378 @@
 {
-  "courseSlug": "grow-cassava",
   "credit": "Narrated illustration video by JesTech. Synthetic voice: Piper TTS (LibriTTS voice, CC BY 4.0).",
-  "lessons": {
-    "choosing-a-good-site": {
-      "videoUrl": "/videos/grow-cassava/choosing-a-good-site.mp4",
-      "videoPoster": "/videos/grow-cassava/choosing-a-good-site.jpg",
-      "videoCaptions": "/videos/grow-cassava/choosing-a-good-site.vtt",
-      "videoDurationSec": 51,
-      "videoSizeBytes": 416621
+  "courses": {
+    "grow-cassava": {
+      "choosing-a-good-site": {
+        "videoUrl": "/videos/grow-cassava/choosing-a-good-site.mp4",
+        "videoPoster": "/videos/grow-cassava/choosing-a-good-site.jpg",
+        "videoCaptions": "/videos/grow-cassava/choosing-a-good-site.vtt",
+        "videoDurationSec": 52,
+        "videoSizeBytes": 445274
+      },
+      "healthy-stems-make-healthy-plants": {
+        "videoUrl": "/videos/grow-cassava/healthy-stems-make-healthy-plants.mp4",
+        "videoPoster": "/videos/grow-cassava/healthy-stems-make-healthy-plants.jpg",
+        "videoCaptions": "/videos/grow-cassava/healthy-stems-make-healthy-plants.vtt",
+        "videoDurationSec": 52,
+        "videoSizeBytes": 430685
+      },
+      "preparing-the-land": {
+        "videoUrl": "/videos/grow-cassava/preparing-the-land.mp4",
+        "videoPoster": "/videos/grow-cassava/preparing-the-land.jpg",
+        "videoCaptions": "/videos/grow-cassava/preparing-the-land.vtt",
+        "videoDurationSec": 36,
+        "videoSizeBytes": 301040
+      },
+      "planting-your-cuttings": {
+        "videoUrl": "/videos/grow-cassava/planting-your-cuttings.mp4",
+        "videoPoster": "/videos/grow-cassava/planting-your-cuttings.jpg",
+        "videoCaptions": "/videos/grow-cassava/planting-your-cuttings.vtt",
+        "videoDurationSec": 41,
+        "videoSizeBytes": 344383
+      },
+      "caring-for-young-cassava": {
+        "videoUrl": "/videos/grow-cassava/caring-for-young-cassava.mp4",
+        "videoPoster": "/videos/grow-cassava/caring-for-young-cassava.jpg",
+        "videoCaptions": "/videos/grow-cassava/caring-for-young-cassava.vtt",
+        "videoDurationSec": 33,
+        "videoSizeBytes": 299280
+      },
+      "spotting-and-managing-problems": {
+        "videoUrl": "/videos/grow-cassava/spotting-and-managing-problems.mp4",
+        "videoPoster": "/videos/grow-cassava/spotting-and-managing-problems.jpg",
+        "videoCaptions": "/videos/grow-cassava/spotting-and-managing-problems.vtt",
+        "videoDurationSec": 49,
+        "videoSizeBytes": 405721
+      },
+      "when-and-how-to-harvest": {
+        "videoUrl": "/videos/grow-cassava/when-and-how-to-harvest.mp4",
+        "videoPoster": "/videos/grow-cassava/when-and-how-to-harvest.jpg",
+        "videoCaptions": "/videos/grow-cassava/when-and-how-to-harvest.vtt",
+        "videoDurationSec": 41,
+        "videoSizeBytes": 346973
+      },
+      "handling-and-processing": {
+        "videoUrl": "/videos/grow-cassava/handling-and-processing.mp4",
+        "videoPoster": "/videos/grow-cassava/handling-and-processing.jpg",
+        "videoCaptions": "/videos/grow-cassava/handling-and-processing.vtt",
+        "videoDurationSec": 39,
+        "videoSizeBytes": 345950
+      },
+      "selling-your-produce": {
+        "videoUrl": "/videos/grow-cassava/selling-your-produce.mp4",
+        "videoPoster": "/videos/grow-cassava/selling-your-produce.jpg",
+        "videoCaptions": "/videos/grow-cassava/selling-your-produce.vtt",
+        "videoDurationSec": 41,
+        "videoSizeBytes": 357205
+      }
     },
-    "healthy-stems-make-healthy-plants": {
-      "videoUrl": "/videos/grow-cassava/healthy-stems-make-healthy-plants.mp4",
-      "videoPoster": "/videos/grow-cassava/healthy-stems-make-healthy-plants.jpg",
-      "videoCaptions": "/videos/grow-cassava/healthy-stems-make-healthy-plants.vtt",
-      "videoDurationSec": 50,
-      "videoSizeBytes": 425567
+    "ai-literacy": {
+      "what-ai-is": {
+        "videoUrl": "/videos/ai-literacy/what-ai-is.mp4",
+        "videoPoster": "/videos/ai-literacy/what-ai-is.jpg",
+        "videoCaptions": "/videos/ai-literacy/what-ai-is.vtt",
+        "videoDurationSec": 59,
+        "videoSizeBytes": 509666
+      },
+      "talking-to-ai-assistants": {
+        "videoUrl": "/videos/ai-literacy/talking-to-ai-assistants.mp4",
+        "videoPoster": "/videos/ai-literacy/talking-to-ai-assistants.jpg",
+        "videoCaptions": "/videos/ai-literacy/talking-to-ai-assistants.vtt",
+        "videoDurationSec": 60,
+        "videoSizeBytes": 525061
+      },
+      "checking-ai-answers": {
+        "videoUrl": "/videos/ai-literacy/checking-ai-answers.mp4",
+        "videoPoster": "/videos/ai-literacy/checking-ai-answers.jpg",
+        "videoCaptions": "/videos/ai-literacy/checking-ai-answers.vtt",
+        "videoDurationSec": 52,
+        "videoSizeBytes": 458937
+      },
+      "ai-for-study-and-work": {
+        "videoUrl": "/videos/ai-literacy/ai-for-study-and-work.mp4",
+        "videoPoster": "/videos/ai-literacy/ai-for-study-and-work.jpg",
+        "videoCaptions": "/videos/ai-literacy/ai-for-study-and-work.vtt",
+        "videoDurationSec": 50,
+        "videoSizeBytes": 443175
+      },
+      "privacy-and-safety": {
+        "videoUrl": "/videos/ai-literacy/privacy-and-safety.mp4",
+        "videoPoster": "/videos/ai-literacy/privacy-and-safety.jpg",
+        "videoCaptions": "/videos/ai-literacy/privacy-and-safety.vtt",
+        "videoDurationSec": 52,
+        "videoSizeBytes": 459892
+      },
+      "your-ai-project": {
+        "videoUrl": "/videos/ai-literacy/your-ai-project.mp4",
+        "videoPoster": "/videos/ai-literacy/your-ai-project.jpg",
+        "videoCaptions": "/videos/ai-literacy/your-ai-project.vtt",
+        "videoDurationSec": 41,
+        "videoSizeBytes": 360982
+      }
     },
-    "preparing-the-land": {
-      "videoUrl": "/videos/grow-cassava/preparing-the-land.mp4",
-      "videoPoster": "/videos/grow-cassava/preparing-the-land.jpg",
-      "videoCaptions": "/videos/grow-cassava/preparing-the-land.vtt",
-      "videoDurationSec": 37,
-      "videoSizeBytes": 313899
+    "web-development-fundamentals": {
+      "how-the-web-works": {
+        "videoUrl": "/videos/web-development-fundamentals/how-the-web-works.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/how-the-web-works.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/how-the-web-works.vtt",
+        "videoDurationSec": 48,
+        "videoSizeBytes": 405619
+      },
+      "html-structure": {
+        "videoUrl": "/videos/web-development-fundamentals/html-structure.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/html-structure.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/html-structure.vtt",
+        "videoDurationSec": 43,
+        "videoSizeBytes": 372724
+      },
+      "css-basics": {
+        "videoUrl": "/videos/web-development-fundamentals/css-basics.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/css-basics.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/css-basics.vtt",
+        "videoDurationSec": 48,
+        "videoSizeBytes": 423514
+      },
+      "layouts-with-flexbox": {
+        "videoUrl": "/videos/web-development-fundamentals/layouts-with-flexbox.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/layouts-with-flexbox.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/layouts-with-flexbox.vtt",
+        "videoDurationSec": 39,
+        "videoSizeBytes": 346466
+      },
+      "responsive-layouts": {
+        "videoUrl": "/videos/web-development-fundamentals/responsive-layouts.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/responsive-layouts.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/responsive-layouts.vtt",
+        "videoDurationSec": 41,
+        "videoSizeBytes": 352429
+      },
+      "forms-and-accessibility": {
+        "videoUrl": "/videos/web-development-fundamentals/forms-and-accessibility.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/forms-and-accessibility.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/forms-and-accessibility.vtt",
+        "videoDurationSec": 37,
+        "videoSizeBytes": 317184
+      },
+      "a-little-javascript": {
+        "videoUrl": "/videos/web-development-fundamentals/a-little-javascript.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/a-little-javascript.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/a-little-javascript.vtt",
+        "videoDurationSec": 38,
+        "videoSizeBytes": 344543
+      },
+      "publishing-your-site": {
+        "videoUrl": "/videos/web-development-fundamentals/publishing-your-site.mp4",
+        "videoPoster": "/videos/web-development-fundamentals/publishing-your-site.jpg",
+        "videoCaptions": "/videos/web-development-fundamentals/publishing-your-site.vtt",
+        "videoDurationSec": 39,
+        "videoSizeBytes": 342826
+      }
     },
-    "planting-your-cuttings": {
-      "videoUrl": "/videos/grow-cassava/planting-your-cuttings.mp4",
-      "videoPoster": "/videos/grow-cassava/planting-your-cuttings.jpg",
-      "videoCaptions": "/videos/grow-cassava/planting-your-cuttings.vtt",
-      "videoDurationSec": 39,
-      "videoSizeBytes": 352583
+    "cybersecurity-awareness": {
+      "why-security-matters": {
+        "videoUrl": "/videos/cybersecurity-awareness/why-security-matters.mp4",
+        "videoPoster": "/videos/cybersecurity-awareness/why-security-matters.jpg",
+        "videoCaptions": "/videos/cybersecurity-awareness/why-security-matters.vtt",
+        "videoDurationSec": 43,
+        "videoSizeBytes": 381855
+      },
+      "passwords-and-2-step-verification": {
+        "videoUrl": "/videos/cybersecurity-awareness/passwords-and-2-step-verification.mp4",
+        "videoPoster": "/videos/cybersecurity-awareness/passwords-and-2-step-verification.jpg",
+        "videoCaptions": "/videos/cybersecurity-awareness/passwords-and-2-step-verification.vtt",
+        "videoDurationSec": 48,
+        "videoSizeBytes": 440584
+      },
+      "scams-and-phishing": {
+        "videoUrl": "/videos/cybersecurity-awareness/scams-and-phishing.mp4",
+        "videoPoster": "/videos/cybersecurity-awareness/scams-and-phishing.jpg",
+        "videoCaptions": "/videos/cybersecurity-awareness/scams-and-phishing.vtt",
+        "videoDurationSec": 46,
+        "videoSizeBytes": 424910
+      },
+      "mobile-money-safety": {
+        "videoUrl": "/videos/cybersecurity-awareness/mobile-money-safety.mp4",
+        "videoPoster": "/videos/cybersecurity-awareness/mobile-money-safety.jpg",
+        "videoCaptions": "/videos/cybersecurity-awareness/mobile-money-safety.vtt",
+        "videoDurationSec": 46,
+        "videoSizeBytes": 415797
+      },
+      "securing-your-phone": {
+        "videoUrl": "/videos/cybersecurity-awareness/securing-your-phone.mp4",
+        "videoPoster": "/videos/cybersecurity-awareness/securing-your-phone.jpg",
+        "videoCaptions": "/videos/cybersecurity-awareness/securing-your-phone.vtt",
+        "videoDurationSec": 39,
+        "videoSizeBytes": 341961
+      }
     },
-    "caring-for-young-cassava": {
-      "videoUrl": "/videos/grow-cassava/caring-for-young-cassava.mp4",
-      "videoPoster": "/videos/grow-cassava/caring-for-young-cassava.jpg",
-      "videoCaptions": "/videos/grow-cassava/caring-for-young-cassava.vtt",
-      "videoDurationSec": 32,
-      "videoSizeBytes": 289126
+    "data-analysis-basics": {
+      "asking-good-questions": {
+        "videoUrl": "/videos/data-analysis-basics/asking-good-questions.mp4",
+        "videoPoster": "/videos/data-analysis-basics/asking-good-questions.jpg",
+        "videoCaptions": "/videos/data-analysis-basics/asking-good-questions.vtt",
+        "videoDurationSec": 39,
+        "videoSizeBytes": 340362
+      },
+      "spreadsheets-basics": {
+        "videoUrl": "/videos/data-analysis-basics/spreadsheets-basics.mp4",
+        "videoPoster": "/videos/data-analysis-basics/spreadsheets-basics.jpg",
+        "videoCaptions": "/videos/data-analysis-basics/spreadsheets-basics.vtt",
+        "videoDurationSec": 36,
+        "videoSizeBytes": 311220
+      },
+      "cleaning-data": {
+        "videoUrl": "/videos/data-analysis-basics/cleaning-data.mp4",
+        "videoPoster": "/videos/data-analysis-basics/cleaning-data.jpg",
+        "videoCaptions": "/videos/data-analysis-basics/cleaning-data.vtt",
+        "videoDurationSec": 45,
+        "videoSizeBytes": 406264
+      },
+      "summaries-and-formulas": {
+        "videoUrl": "/videos/data-analysis-basics/summaries-and-formulas.mp4",
+        "videoPoster": "/videos/data-analysis-basics/summaries-and-formulas.jpg",
+        "videoCaptions": "/videos/data-analysis-basics/summaries-and-formulas.vtt",
+        "videoDurationSec": 35,
+        "videoSizeBytes": 317206
+      },
+      "charts": {
+        "videoUrl": "/videos/data-analysis-basics/charts.mp4",
+        "videoPoster": "/videos/data-analysis-basics/charts.jpg",
+        "videoCaptions": "/videos/data-analysis-basics/charts.vtt",
+        "videoDurationSec": 36,
+        "videoSizeBytes": 312029
+      },
+      "presenting-findings": {
+        "videoUrl": "/videos/data-analysis-basics/presenting-findings.mp4",
+        "videoPoster": "/videos/data-analysis-basics/presenting-findings.jpg",
+        "videoCaptions": "/videos/data-analysis-basics/presenting-findings.vtt",
+        "videoDurationSec": 34,
+        "videoSizeBytes": 303033
+      }
     },
-    "spotting-and-managing-problems": {
-      "videoUrl": "/videos/grow-cassava/spotting-and-managing-problems.mp4",
-      "videoPoster": "/videos/grow-cassava/spotting-and-managing-problems.jpg",
-      "videoCaptions": "/videos/grow-cassava/spotting-and-managing-problems.vtt",
-      "videoDurationSec": 47,
-      "videoSizeBytes": 400375
+    "graphic-design-essentials": {
+      "design-principles": {
+        "videoUrl": "/videos/graphic-design-essentials/design-principles.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/design-principles.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/design-principles.vtt",
+        "videoDurationSec": 44,
+        "videoSizeBytes": 352933
+      },
+      "colour": {
+        "videoUrl": "/videos/graphic-design-essentials/colour.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/colour.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/colour.vtt",
+        "videoDurationSec": 36,
+        "videoSizeBytes": 309110
+      },
+      "typography": {
+        "videoUrl": "/videos/graphic-design-essentials/typography.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/typography.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/typography.vtt",
+        "videoDurationSec": 37,
+        "videoSizeBytes": 318888
+      },
+      "layout-and-hierarchy": {
+        "videoUrl": "/videos/graphic-design-essentials/layout-and-hierarchy.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/layout-and-hierarchy.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/layout-and-hierarchy.vtt",
+        "videoDurationSec": 38,
+        "videoSizeBytes": 325629
+      },
+      "designing-for-phones": {
+        "videoUrl": "/videos/graphic-design-essentials/designing-for-phones.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/designing-for-phones.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/designing-for-phones.vtt",
+        "videoDurationSec": 34,
+        "videoSizeBytes": 299574
+      },
+      "free-design-tools": {
+        "videoUrl": "/videos/graphic-design-essentials/free-design-tools.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/free-design-tools.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/free-design-tools.vtt",
+        "videoDurationSec": 40,
+        "videoSizeBytes": 370674
+      },
+      "portfolio": {
+        "videoUrl": "/videos/graphic-design-essentials/portfolio.mp4",
+        "videoPoster": "/videos/graphic-design-essentials/portfolio.jpg",
+        "videoCaptions": "/videos/graphic-design-essentials/portfolio.vtt",
+        "videoDurationSec": 42,
+        "videoSizeBytes": 354286
+      }
     },
-    "when-and-how-to-harvest": {
-      "videoUrl": "/videos/grow-cassava/when-and-how-to-harvest.mp4",
-      "videoPoster": "/videos/grow-cassava/when-and-how-to-harvest.jpg",
-      "videoCaptions": "/videos/grow-cassava/when-and-how-to-harvest.vtt",
-      "videoDurationSec": 41,
-      "videoSizeBytes": 353785
+    "start-a-small-business": {
+      "finding-an-idea": {
+        "videoUrl": "/videos/start-a-small-business/finding-an-idea.mp4",
+        "videoPoster": "/videos/start-a-small-business/finding-an-idea.jpg",
+        "videoCaptions": "/videos/start-a-small-business/finding-an-idea.vtt",
+        "videoDurationSec": 39,
+        "videoSizeBytes": 348852
+      },
+      "knowing-your-customer": {
+        "videoUrl": "/videos/start-a-small-business/knowing-your-customer.mp4",
+        "videoPoster": "/videos/start-a-small-business/knowing-your-customer.jpg",
+        "videoCaptions": "/videos/start-a-small-business/knowing-your-customer.vtt",
+        "videoDurationSec": 38,
+        "videoSizeBytes": 343428
+      },
+      "costs-and-pricing": {
+        "videoUrl": "/videos/start-a-small-business/costs-and-pricing.mp4",
+        "videoPoster": "/videos/start-a-small-business/costs-and-pricing.jpg",
+        "videoCaptions": "/videos/start-a-small-business/costs-and-pricing.vtt",
+        "videoDurationSec": 38,
+        "videoSizeBytes": 338450
+      },
+      "record-keeping": {
+        "videoUrl": "/videos/start-a-small-business/record-keeping.mp4",
+        "videoPoster": "/videos/start-a-small-business/record-keeping.jpg",
+        "videoCaptions": "/videos/start-a-small-business/record-keeping.vtt",
+        "videoDurationSec": 41,
+        "videoSizeBytes": 362768
+      },
+      "your-one-page-plan": {
+        "videoUrl": "/videos/start-a-small-business/your-one-page-plan.mp4",
+        "videoPoster": "/videos/start-a-small-business/your-one-page-plan.jpg",
+        "videoCaptions": "/videos/start-a-small-business/your-one-page-plan.vtt",
+        "videoDurationSec": 37,
+        "videoSizeBytes": 325432
+      }
     },
-    "handling-and-processing": {
-      "videoUrl": "/videos/grow-cassava/handling-and-processing.mp4",
-      "videoPoster": "/videos/grow-cassava/handling-and-processing.jpg",
-      "videoCaptions": "/videos/grow-cassava/handling-and-processing.vtt",
-      "videoDurationSec": 39,
-      "videoSizeBytes": 357527
-    },
-    "selling-your-produce": {
-      "videoUrl": "/videos/grow-cassava/selling-your-produce.mp4",
-      "videoPoster": "/videos/grow-cassava/selling-your-produce.jpg",
-      "videoCaptions": "/videos/grow-cassava/selling-your-produce.vtt",
-      "videoDurationSec": 41,
-      "videoSizeBytes": 346926
+    "digital-literacy-for-teachers": {
+      "devices-and-files": {
+        "videoUrl": "/videos/digital-literacy-for-teachers/devices-and-files.mp4",
+        "videoPoster": "/videos/digital-literacy-for-teachers/devices-and-files.jpg",
+        "videoCaptions": "/videos/digital-literacy-for-teachers/devices-and-files.vtt",
+        "videoDurationSec": 40,
+        "videoSizeBytes": 352446
+      },
+      "finding-good-resources": {
+        "videoUrl": "/videos/digital-literacy-for-teachers/finding-good-resources.mp4",
+        "videoPoster": "/videos/digital-literacy-for-teachers/finding-good-resources.jpg",
+        "videoCaptions": "/videos/digital-literacy-for-teachers/finding-good-resources.vtt",
+        "videoDurationSec": 37,
+        "videoSizeBytes": 343317
+      },
+      "lesson-planning-tools": {
+        "videoUrl": "/videos/digital-literacy-for-teachers/lesson-planning-tools.mp4",
+        "videoPoster": "/videos/digital-literacy-for-teachers/lesson-planning-tools.jpg",
+        "videoCaptions": "/videos/digital-literacy-for-teachers/lesson-planning-tools.vtt",
+        "videoDurationSec": 34,
+        "videoSizeBytes": 293129
+      },
+      "teaching-online-safety": {
+        "videoUrl": "/videos/digital-literacy-for-teachers/teaching-online-safety.mp4",
+        "videoPoster": "/videos/digital-literacy-for-teachers/teaching-online-safety.jpg",
+        "videoCaptions": "/videos/digital-literacy-for-teachers/teaching-online-safety.vtt",
+        "videoDurationSec": 38,
+        "videoSizeBytes": 329850
+      },
+      "low-data-teaching": {
+        "videoUrl": "/videos/digital-literacy-for-teachers/low-data-teaching.mp4",
+        "videoPoster": "/videos/digital-literacy-for-teachers/low-data-teaching.jpg",
+        "videoCaptions": "/videos/digital-literacy-for-teachers/low-data-teaching.vtt",
+        "videoDurationSec": 48,
+        "videoSizeBytes": 440565
+      }
     }
   }
 }

@@ -109,6 +109,12 @@ const learner = await learnerCtx.newPage();
   await learner.goto(`${BASE}/courses/grow-cassava/lessons/choosing-a-good-site`);
   check(await visible(learner.locator("video source[src$='choosing-a-good-site.mp4']").first().locator("..")), "lesson shows its narrated video");
   check((await learner.locator("video track[kind='captions']").count()) === 1, "lesson video has captions");
+  await learner.goto(`${BASE}/courses/cybersecurity-awareness/lessons/mobile-money-safety`);
+  check(await visible(learner.getByText(/Never tell anyone your mobile money PIN/)), "new course lesson has real content");
+  check((await learner.locator("video source[src$='mobile-money-safety.mp4']").count()) === 1, "new course lesson has its video");
+  await learner.goto(`${BASE}/courses/web-development-fundamentals/lessons/html-structure`);
+  check((await learner.locator(".prose-lesson pre code").count()) > 0, "web lesson shows code blocks");
+  await learner.goto(`${BASE}/courses/grow-cassava/lessons/choosing-a-good-site`);
   const videoRes = await learner.request.get(`${BASE}/videos/grow-cassava/choosing-a-good-site.mp4`);
   check(videoRes.ok() && Number(videoRes.headers()["content-length"]) < 1_000_000, "lesson video file is served and under 1 MB");
   for (let i = 0; i < 9; i++) {
