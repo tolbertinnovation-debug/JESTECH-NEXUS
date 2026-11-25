@@ -41,6 +41,8 @@ export async function getDashboard(userId: string) {
       id: courses.id,
       slug: courses.slug,
       title: courses.title,
+      icon: courses.icon,
+      category: courses.category,
       completedAt: enrollments.completedAt,
       total: sql<number>`(select count(*)::int from lessons l join course_modules m on m.id = l.module_id where m.course_id = "courses"."id")`,
       done: sql<number>`(select count(*)::int from lesson_progress p join lessons l on l.id = p.lesson_id join course_modules m on m.id = l.module_id where m.course_id = "courses"."id" and p.user_id = ${userId})`,

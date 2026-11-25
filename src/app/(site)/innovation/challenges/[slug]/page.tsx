@@ -26,7 +26,7 @@ export default async function ChallengePage({ params }: Props) {
   if (!c) notFound();
 
   return (
-    <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_24rem]">
+    <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_24rem]">
       <article>
         <Link href="/innovation" className="text-sm underline">
           ← All challenges

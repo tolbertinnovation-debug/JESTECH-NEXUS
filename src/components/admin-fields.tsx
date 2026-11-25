@@ -133,7 +133,7 @@ export function ResourceFields({ r }: { r?: Resource }) {
       </div>
       <fieldset className="rounded-card border border-brand bg-brand-tint p-4">
         <legend className="px-1 text-sm font-semibold">Rights (required before publishing)</legend>
-        <div className="grid gap-4 sm:grid-cols-[14rem_1fr]">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-[14rem_minmax(0,1fr)]">
           <Field label="Licence" htmlFor="licence">
             <Select id="licence" name="licence" defaultValue={r?.licence ?? ""} required>
               <option value="" disabled>

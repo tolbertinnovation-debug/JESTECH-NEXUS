@@ -53,3 +53,9 @@ export const PLACEHOLDER_SLUG = "__none__";
 export function atLeastOne<T extends Record<string, string>>(params: T[], placeholder: T): T[] {
   return params.length > 0 ? params : [placeholder];
 }
+
+/** 51 -> "0:51", 125 -> "2:05". */
+export function formatDuration(sec: number | null | undefined): string | null {
+  if (!sec) return null;
+  return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
+}

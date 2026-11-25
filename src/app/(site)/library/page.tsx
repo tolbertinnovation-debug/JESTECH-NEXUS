@@ -54,7 +54,7 @@ async function LibraryResults({ searchParams }: Props) {
   const [list, languages] = await Promise.all([searchLibrary(current), getLibraryLanguages()]);
 
   return (
-    <div className="container-page grid gap-8 py-8 lg:grid-cols-[14rem_1fr]">
+    <div className="container-page grid grid-cols-1 gap-8 py-8 lg:grid-cols-[14rem_minmax(0,1fr)]">
       <aside className="space-y-5" aria-label="Filters">
         <FilterGroup label="Subject" name="subject" base="/library" current={current} options={LIBRARY_SUBJECTS.map((v) => ({ value: v, label: v }))} />
         <FilterGroup label="Audience" name="audience" base="/library" current={current} options={LIBRARY_AUDIENCES.map((v) => ({ value: v, label: v }))} />

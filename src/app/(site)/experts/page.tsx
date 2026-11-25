@@ -18,7 +18,7 @@ export default async function ExpertsPage({ searchParams }: Props) {
   return (
     <>
       <PageHeader title="Experts and consultancy" intro="Approved technical professionals, trainers and consultants." />
-      <div className="container-page grid gap-8 py-8 lg:grid-cols-[1fr_24rem]">
+      <div className="container-page grid grid-cols-1 gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
         <Suspense fallback={<div className="h-64" aria-busy />}>
           <ExpertList searchParams={searchParams} />
         </Suspense>

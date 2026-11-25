@@ -9,7 +9,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader title="Contact us" intro="Questions about courses, the library or working with JesTech? Send us a message." />
-      <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_20rem]">
+      <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <Card className="p-5 sm:p-6">
           <InquiryForm type="CONTACT" />
         </Card>

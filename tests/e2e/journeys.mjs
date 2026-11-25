@@ -28,6 +28,15 @@ async function visible(locator) {
   }
 }
 
+/** True when the page fits a 390px phone screen without sideways scrolling. */
+async function fitsPhone(page, path) {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+  const width = await page.evaluate(() => document.documentElement.scrollWidth);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  return width <= 390;
+}
+
 async function shot(page, name) {
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/${name}.png`, fullPage: true });
 }
@@ -98,6 +107,10 @@ const learner = await learnerCtx.newPage();
 
   // Complete all 9 lessons via the "Mark lesson complete" flow (redirects to next lesson).
   await learner.goto(`${BASE}/courses/grow-cassava/lessons/choosing-a-good-site`);
+  check(await visible(learner.locator("video source[src$='choosing-a-good-site.mp4']").first().locator("..")), "lesson shows its narrated video");
+  check((await learner.locator("video track[kind='captions']").count()) === 1, "lesson video has captions");
+  const videoRes = await learner.request.get(`${BASE}/videos/grow-cassava/choosing-a-good-site.mp4`);
+  check(videoRes.ok() && Number(videoRes.headers()["content-length"]) < 1_000_000, "lesson video file is served and under 1 MB");
   for (let i = 0; i < 9; i++) {
     const btn = learner.getByRole("button", { name: "Mark lesson complete" });
     await btn.waitFor();
@@ -106,7 +119,7 @@ const learner = await learnerCtx.newPage();
   }
   await learner.goto(`${BASE}/dashboard`);
   check(await visible(learner.getByText("100%").first()), "dashboard shows 100% course progress");
-  check(await visible(learner.getByText("Quick starter")), "badges awarded");
+  check(await visible(learner.getByText(/^[2-4] of 4 earned$/)), "badges awarded");
   await shot(learner, "desktop-dashboard");
 
   await learner.goto(`${BASE}/dashboard/submissions`);
@@ -169,6 +182,9 @@ const learner = await learnerCtx.newPage();
 
   await admin.goto(`${BASE}/admin`);
   check(await visible(admin.getByText("Consultation request").first()), "inquiry appears on admin overview");
+  for (const path of ["/dashboard", "/mentor", "/admin", "/admin/users", "/admin/inquiries"]) {
+    check(await fitsPhone(admin, path), `${path} fits a phone screen`);
+  }
   await shot(admin, "desktop-admin");
 
   await admin.goto(`${BASE}/admin/courses`);

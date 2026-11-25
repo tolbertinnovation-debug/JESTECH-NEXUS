@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { Check, CheckCircle2, Download, FileText, ListChecks, PlayCircle, ShieldCheck } from "lucide-react";
 import { Badge, Button, ButtonLink, Card, ProgressBar } from "@/components/ui";
 import { getCurrentUser } from "@/lib/auth";
-import { formatBytes, formatLabel, levelLabel, percent, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
+import { formatBytes, formatDuration, formatLabel, levelLabel, percent, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { flattenLessons, getCourse, getPublishedCourseSlugs, type CourseWithModules } from "@/modules/courses/queries";
 import { enrolAction } from "@/modules/learning/actions";
 import { getCourseProgress } from "@/modules/learning/queries";
@@ -26,11 +26,13 @@ export default async function CoursePage({ params }: Props) {
   if (!course) notFound();
   const lessons = flattenLessons(course);
   const first = lessons[0];
+  const lessonCount = lessons.length;
+  const videoCount = lessons.filter((l) => l.videoDurationSec).length;
 
   return (
     <>
       <section className="bg-ink text-paper">
-        <div className="container-page grid gap-6 py-10 lg:grid-cols-[1fr_22rem] lg:items-start">
+        <div className="container-page grid grid-cols-1 gap-6 py-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
           <div>
             <div className="flex flex-wrap gap-2">
               <Badge tone="tint">
@@ -63,7 +65,7 @@ export default async function CoursePage({ params }: Props) {
         </div>
       </section>
 
-      <div className="container-page grid gap-8 py-10 lg:grid-cols-[1fr_22rem]">
+      <div className="container-page grid grid-cols-1 gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <section aria-labelledby="modules-heading">
           <h2 id="modules-heading" className="text-xl font-bold">
             Course modules
@@ -104,9 +106,12 @@ export default async function CoursePage({ params }: Props) {
               <li className="flex items-center gap-2">
                 <ListChecks className="size-4 text-brand" aria-hidden /> Practical checklists in every lesson
               </li>
-              <li className="flex items-center gap-2">
-                <PlayCircle className="size-4 text-brand" aria-hidden /> Demonstration clips (coming soon)
-              </li>
+              {videoCount > 0 && (
+                <li className="flex items-center gap-2">
+                  <PlayCircle className="size-4 text-brand" aria-hidden />
+                  {videoCount === lessonCount ? "A short narrated video in every lesson" : `${videoCount} narrated lesson videos`}
+                </li>
+              )}
             </ul>
           </Card>
           {course.reviewNote && (
@@ -216,7 +221,17 @@ function ModuleList({ course, done }: { course: CourseWithModules; done: Set<str
                 {m.title}
                 {complete && <span className="sr-only"> (completed)</span>}
               </span>
-              <span className="hidden text-xs text-subtle sm:inline">Lesson + checklist</span>
+              <span className="flex shrink-0 items-center gap-1 text-xs text-subtle">
+                {lesson?.videoDurationSec ? (
+                  <>
+                    <PlayCircle className="size-4 text-brand" aria-hidden />
+                    <span className="sr-only">Video, </span>
+                    {formatDuration(lesson.videoDurationSec)}
+                  </>
+                ) : (
+                  <span className="hidden sm:inline">Lesson + checklist</span>
+                )}
+              </span>
             </Link>
           </li>
         );

@@ -8,6 +8,20 @@
       "when": 1795508046367,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1795565448699,
+      "tag": "0001_lesson_videos",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795565449472,
+      "tag": "0002_lesson_videos_cassava_data",
+      "breakpoints": true
     }
   ]
 }

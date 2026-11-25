@@ -52,7 +52,7 @@ async function EditCourse({ params }: Props) {
         </div>
       </AdminTitle>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_24rem]">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_24rem]">
         <Panel title="Details">
           <AdminForm action={saveCourseAction}>
             <CourseFields c={course} resources={resources} />

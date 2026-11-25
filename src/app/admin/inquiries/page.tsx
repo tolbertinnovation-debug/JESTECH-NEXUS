@@ -71,7 +71,7 @@ async function Inquiries({ searchParams }: Props) {
                 {challengeTitle && ` · challenge: ${challengeTitle}`}
               </p>
               <p className="mt-2 text-sm whitespace-pre-line">{i.message}</p>
-              <form action={updateInquiryAction} className="mt-3 grid gap-2 sm:grid-cols-[10rem_1fr_auto] sm:items-start">
+              <form action={updateInquiryAction} className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:items-start">
                 <input type="hidden" name="id" value={i.id} />
                 <label className="sr-only" htmlFor={`st-${i.id}`}>
                   Status

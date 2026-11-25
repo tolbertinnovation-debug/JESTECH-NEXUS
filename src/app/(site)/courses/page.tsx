@@ -47,7 +47,7 @@ async function Catalog({ searchParams }: Props) {
   const list = await getCatalog(current);
 
   return (
-    <div className="container-page grid gap-8 py-8 lg:grid-cols-[14rem_1fr]">
+    <div className="container-page grid grid-cols-1 gap-8 py-8 lg:grid-cols-[14rem_minmax(0,1fr)]">
       <aside className="space-y-5" aria-label="Filters">
         <FilterGroup
           label="Category"

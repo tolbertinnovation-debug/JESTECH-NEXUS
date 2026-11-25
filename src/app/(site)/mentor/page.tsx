@@ -27,7 +27,7 @@ async function Workspace() {
   const [students, queue] = await Promise.all([getAssignedStudents(user), getReviewQueue(user)]);
 
   return (
-    <div className="mt-6 grid gap-6 lg:grid-cols-[18rem_1fr]">
+    <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
       <Card className="h-fit p-5">
         <h2 className="font-display font-semibold">Assigned students</h2>
         {students.length === 0 ? (

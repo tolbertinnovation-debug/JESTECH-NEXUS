@@ -66,7 +66,7 @@ async function LessonEditor({ params, searchParams }: Props) {
               <Input id="slug" name="slug" defaultValue={lesson?.slug} required />
             </Field>
           </div>
-          <div className="grid gap-4 sm:grid-cols-[1fr_10rem]">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
             <Field label="Summary" htmlFor="summary">
               <Input id="summary" name="summary" defaultValue={lesson?.summary} />
             </Field>
@@ -84,6 +84,33 @@ async function LessonEditor({ params, searchParams }: Props) {
           <Field label="Checklist" htmlFor="checklist" hint="One item per line">
             <Textarea id="checklist" name="checklist" defaultValue={lesson?.checklist.join("\n")} rows={4} />
           </Field>
+          <fieldset className="space-y-4 rounded-card border border-line p-4">
+            <legend className="px-1 text-sm font-semibold">Lesson video (optional)</legend>
+            <p className="text-xs text-subtle">
+              A self-hosted MP4 (for example /videos/…/lesson.mp4) or a YouTube link. Only use videos JesTech owns or has
+              permission to share, and record the credit.
+            </p>
+            <Field label="Video link" htmlFor="videoUrl">
+              <Input id="videoUrl" name="videoUrl" defaultValue={lesson?.videoUrl ?? ""} placeholder="/videos/… .mp4 or https://www.youtube.com/watch?v=…" />
+            </Field>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Field label="Poster image" htmlFor="videoPoster" hint="Shown before the video plays">
+                <Input id="videoPoster" name="videoPoster" defaultValue={lesson?.videoPoster ?? ""} />
+              </Field>
+              <Field label="Subtitles (.vtt)" htmlFor="videoCaptions">
+                <Input id="videoCaptions" name="videoCaptions" defaultValue={lesson?.videoCaptions ?? ""} />
+              </Field>
+              <Field label="Length (seconds)" htmlFor="videoDurationSec">
+                <Input id="videoDurationSec" name="videoDurationSec" type="number" min={0} defaultValue={lesson?.videoDurationSec ?? ""} />
+              </Field>
+              <Field label="File size (bytes)" htmlFor="videoSizeBytes" hint="Shown so learners know the data cost">
+                <Input id="videoSizeBytes" name="videoSizeBytes" type="number" min={0} defaultValue={lesson?.videoSizeBytes ?? ""} />
+              </Field>
+            </div>
+            <Field label="Credit / source" htmlFor="videoCredit">
+              <Input id="videoCredit" name="videoCredit" defaultValue={lesson?.videoCredit ?? ""} />
+            </Field>
+          </fieldset>
         </AdminForm>
       </Panel>
       {lesson && (

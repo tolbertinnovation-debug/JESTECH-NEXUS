@@ -150,6 +150,13 @@ export const lessons = pgTable(
     body: text("body").notNull().default(""), // lightweight markdown
     checklist: jsonb("checklist").$type<string[]>().notNull().default([]),
     estMinutes: integer("est_minutes").notNull().default(10),
+    // Optional lesson video: a self-hosted MP4 (with poster + captions) or a YouTube link.
+    videoUrl: text("video_url"),
+    videoPoster: text("video_poster"),
+    videoCaptions: text("video_captions"),
+    videoDurationSec: integer("video_duration_sec"),
+    videoSizeBytes: integer("video_size_bytes"),
+    videoCredit: text("video_credit"),
   },
   (t) => [index("lessons_module_idx").on(t.moduleId)],
 );
