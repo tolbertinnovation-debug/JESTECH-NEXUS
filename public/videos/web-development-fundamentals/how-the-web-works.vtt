@@ -1,0 +1,28 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:05.857
+Welcome to Web Development Fundamentals. First: what happens when you open a website?
+
+00:00:06.710 --> 00:00:09.825
+You type an address, called a URL, into your browser.
+
+00:00:10.380 --> 00:00:14.157
+A computer called a server sends back the files for that page.
+
+00:00:14.710 --> 00:00:18.731
+Your browser reads the files, and draws the page on your screen.
+
+00:00:19.280 --> 00:00:24.148
+HTML gives the content and structure: headings, text and images.
+
+00:00:24.700 --> 00:00:28.396
+CSS controls the look: colours, fonts and layout.
+
+00:00:28.950 --> 00:00:32.924
+And JavaScript adds behaviour, like buttons that respond.
+
+00:00:33.470 --> 00:00:42.711
+Before you move on, check: Explain what a browser and a server do. Name the job of HTML, CSS and JavaScript. Install a code editor.
+
+00:00:43.460 --> 00:00:46.680
+In the next lesson: HTML structure.

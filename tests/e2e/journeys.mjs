@@ -31,7 +31,10 @@ async function visible(locator) {
 /** True when the page fits a 390px phone screen without sideways scrolling. */
 async function fitsPhone(page, path) {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(`${BASE}${path}`, { waitUntil: "networkidle" });
+  // Wait for the page's own content, not "network idle": Next.js keeps prefetching linked pages
+  // in the background, which on a slow CI machine can take longer than the page itself.
+  await page.goto(`${BASE}${path}`, { waitUntil: "domcontentloaded" });
+  await page.locator("main h1").first().waitFor({ timeout: 20000 });
   const width = await page.evaluate(() => document.documentElement.scrollWidth);
   await page.setViewportSize({ width: 1280, height: 900 });
   return width <= 390;
@@ -46,7 +49,7 @@ async function login(page, email) {
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill(PASSWORD);
   await page.getByRole("button", { name: "Log in" }).click();
-  await page.waitForURL(/\/dashboard/);
+  await page.waitForURL(/\/dashboard/, { waitUntil: "domcontentloaded" });
 }
 
 const browser = await chromium.launch();
@@ -109,13 +112,19 @@ const learner = await learnerCtx.newPage();
   await learner.goto(`${BASE}/courses/grow-cassava/lessons/choosing-a-good-site`);
   check(await visible(learner.locator("video source[src$='choosing-a-good-site.mp4']").first().locator("..")), "lesson shows its narrated video");
   check((await learner.locator("video track[kind='captions']").count()) === 1, "lesson video has captions");
+  await learner.goto(`${BASE}/courses/cybersecurity-awareness/lessons/mobile-money-safety`);
+  check(await visible(learner.getByText(/Never tell anyone your mobile money PIN/)), "new course lesson has real content");
+  check((await learner.locator("video source[src$='mobile-money-safety.mp4']").count()) === 1, "new course lesson has its video");
+  await learner.goto(`${BASE}/courses/web-development-fundamentals/lessons/html-structure`);
+  check((await learner.locator(".prose-lesson pre code").count()) > 0, "web lesson shows code blocks");
+  await learner.goto(`${BASE}/courses/grow-cassava/lessons/choosing-a-good-site`);
   const videoRes = await learner.request.get(`${BASE}/videos/grow-cassava/choosing-a-good-site.mp4`);
   check(videoRes.ok() && Number(videoRes.headers()["content-length"]) < 1_000_000, "lesson video file is served and under 1 MB");
   for (let i = 0; i < 9; i++) {
     const btn = learner.getByRole("button", { name: "Mark lesson complete" });
     await btn.waitFor();
-    await Promise.all([learner.waitForLoadState("networkidle"), btn.click()]);
-    await learner.waitForTimeout(300);
+    const before = learner.url();
+    await Promise.all([learner.waitForURL((u) => u.href !== before, { waitUntil: "domcontentloaded" }), btn.click()]);
   }
   await learner.goto(`${BASE}/dashboard`);
   check(await visible(learner.getByText("100%").first()), "dashboard shows 100% course progress");
@@ -143,8 +152,10 @@ const learner = await learnerCtx.newPage();
   await admin.goto(`${BASE}/admin/users`);
   const row = admin.getByRole("row", { name: new RegExp(email) });
   await row.getByLabel(/Mentor for/).selectOption({ label: "Mentor Demo" });
-  await row.getByRole("button", { name: "Assign" }).click();
-  await admin.waitForLoadState("networkidle");
+  await Promise.all([
+    admin.waitForResponse((r) => r.request().method() === "POST"),
+    row.getByRole("button", { name: "Assign" }).click(),
+  ]);
 
   const mentorCtx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
   const mentor = await mentorCtx.newPage();
@@ -154,7 +165,7 @@ const learner = await learnerCtx.newPage();
   await mentor.getByRole("link", { name: /Test Learner/ }).first().click();
   await mentor.getByLabel("Feedback").fill("Clear plan. Good spacing and timing — well done.");
   await mentor.getByRole("button", { name: "Approve" }).click();
-  await mentor.waitForURL(/\/mentor\?reviewed=1/);
+  await mentor.waitForURL(/\/mentor\?reviewed=1/, { waitUntil: "domcontentloaded" });
   check(true, "mentor approved submission");
 
   await learner.goto(`${BASE}/dashboard/certificates`);
@@ -206,9 +217,10 @@ const learner = await learnerCtx.newPage();
     (await visible(anon.getByText(/couldn.t find that page/))) && (await anon.getByText("Solar Basics for Communities").count()) === 0,
     "draft course is not public",
   );
-  await admin.getByRole("button", { name: "Publish" }).click();
-  await admin.waitForLoadState("networkidle");
-  await anon.waitForTimeout(500);
+  await Promise.all([
+    admin.waitForResponse((r) => r.request().method() === "POST"),
+    admin.getByRole("button", { name: "Publish" }).click(),
+  ]);
   await anon.goto(`${BASE}/courses/solar-basics`);
   check(await visible(anon.getByRole("heading", { name: "Solar Basics for Communities" })), "published course is live");
 

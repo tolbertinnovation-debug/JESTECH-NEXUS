@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import { LogoMark } from "@/components/logo-mark";
 import { SideNav } from "@/components/side-nav";
 
 export const metadata: Metadata = { title: { default: "Admin", template: "%s · Admin · JesTech Nexus" }, robots: { index: false } };
@@ -23,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="z-20 min-w-0 bg-ink px-4 pt-3 pb-3 text-paper lg:sticky lg:top-0 lg:flex lg:h-dvh lg:w-64 lg:shrink-0 lg:flex-col lg:p-5">
         <div className="mb-3 flex items-center justify-between lg:mb-6">
           <Link href="/admin" className="inline-flex items-center gap-2 font-display text-lg font-bold">
-            <span className="inline-flex h-7 w-8 items-center justify-center rounded-md bg-brand text-sm text-ink">JT</span>
+            <LogoMark className="h-7 w-auto" />
             Nexus Admin
           </Link>
           <Link href="/" className="inline-flex min-h-10 items-center gap-1 rounded-full px-3 text-xs text-paper/75 hover:bg-paper/10 lg:hidden">

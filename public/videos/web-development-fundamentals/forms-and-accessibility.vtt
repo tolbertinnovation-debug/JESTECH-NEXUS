@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.498
+Forms let visitors send you information. Let's make them work for everyone.
+
+00:00:05.350 --> 00:00:08.662
+Give every input a label, linked with for and id.
+
+00:00:09.210 --> 00:00:13.660
+Use the right type, like tel or email, so phones show the right keyboard.
+
+00:00:14.210 --> 00:00:18.393
+Make buttons big enough to tap, and keep strong colour contrast.
+
+00:00:18.940 --> 00:00:21.846
+And make sure the form works with a keyboard alone.
+
+00:00:22.400 --> 00:00:31.142
+Before you move on, check: Build a form with labelled inputs. Use tel or email input types. Check you can use it with the keyboard only.
+
+00:00:31.890 --> 00:00:35.435
+In the next lesson: A little JavaScript.

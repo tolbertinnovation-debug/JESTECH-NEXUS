@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.533
+JavaScript makes pages interactive. Let's make a button respond.
+
+00:00:05.380 --> 00:00:08.890
+Use document dot query selector to find an element on the page.
+
+00:00:09.440 --> 00:00:13.112
+Use add event listener to run code when the button is tapped.
+
+00:00:13.660 --> 00:00:17.181
+Then change the page, for example show or hide a paragraph.
+
+00:00:17.730 --> 00:00:21.716
+If something breaks, open the developer console to see the error.
+
+00:00:22.270 --> 00:00:33.669
+Before you move on, check: Add a button with an id. Use querySelector and addEventListener. Show or hide something on click. Open the console to find errors.
+
+00:00:34.420 --> 00:00:36.966
+In the next lesson: Publishing your site.

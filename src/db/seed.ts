@@ -36,10 +36,18 @@ function fileSize(publicPath: string | null): number | null {
 }
 
 /** Narrated video fields for a lesson, from src/db/lesson-videos.json (built by scripts/videos). */
+type VideoFields = {
+  videoUrl: string;
+  videoPoster: string;
+  videoCaptions: string;
+  videoDurationSec: number;
+  videoSizeBytes: number;
+};
+const videos = lessonVideos as unknown as { credit: string; courses: Record<string, Record<string, VideoFields>> };
+
 function videoFor(courseSlug: string, lessonSlug: string) {
-  if (courseSlug !== lessonVideos.courseSlug) return {};
-  const v = (lessonVideos.lessons as Record<string, (typeof lessonVideos.lessons)[keyof typeof lessonVideos.lessons]>)[lessonSlug];
-  return v ? { ...v, videoCredit: lessonVideos.credit } : {};
+  const v = videos.courses[courseSlug]?.[lessonSlug];
+  return v ? { ...v, videoCredit: videos.credit } : {};
 }
 
 async function main() {

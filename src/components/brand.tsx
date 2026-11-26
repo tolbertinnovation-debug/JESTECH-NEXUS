@@ -14,14 +14,13 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { LogoMark } from "./logo-mark";
 import { cx } from "./ui";
 
 export function Logo({ label = "JesTech Nexus", className }: { label?: string; className?: string }) {
   return (
     <Link href="/" className={cx("inline-flex items-center gap-2 font-display font-bold", className)}>
-      <span className="inline-flex h-7 w-8 items-center justify-center rounded-md bg-brand text-sm text-ink">
-        JT
-      </span>
+      <LogoMark className="h-7 w-auto shrink-0" />
       <span className="text-lg">{label}</span>
     </Link>
   );

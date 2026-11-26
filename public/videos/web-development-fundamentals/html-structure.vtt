@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.893
+HTML uses tags to mark up content. Let's write your first page.
+
+00:00:05.740 --> 00:00:11.340
+Most tags come in pairs: an opening tag, and a closing tag with a slash.
+
+00:00:11.890 --> 00:00:16.073
+Use h1 for the main heading, and p for paragraphs.
+
+00:00:16.620 --> 00:00:18.946
+Use a for links, and img for images.
+
+00:00:19.500 --> 00:00:24.473
+Always add alt text, describing each image for people who cannot see it.
+
+00:00:25.020 --> 00:00:37.408
+Before you move on, check: Create index.html with a heading and paragraph. Add a link and an image with alt text. Open the page in your browser.
+
+00:00:38.160 --> 00:00:41.194
+In the next lesson: CSS basics.

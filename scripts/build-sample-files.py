@@ -27,7 +27,35 @@ note = ParagraphStyle("note", parent=body, fontSize=8.5, textColor=HexColor("#5c
 
 def inline(text: str) -> str:
     text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    text = re.sub(r"`([^`]+)`", r'<font face="Courier">\1</font>', text)
     return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
+
+
+def md_html(md: str) -> str:
+    """Lesson markdown subset to simple XHTML for the EPUB workbook."""
+    out, items = [], []
+
+    def esc(t):
+        t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        t = re.sub(r"`([^`]+)`", r"<code>\1</code>", t)
+        return re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+
+    def flush():
+        if items:
+            out.append("<ul>" + "".join(f"<li>{esc(i)}</li>" for i in items) + "</ul>")
+            items.clear()
+
+    for raw in md.split("\n"):
+        line = raw.strip()
+        if line.startswith("- "):
+            items.append(line[2:])
+            continue
+        flush()
+        if not line or line.startswith("Draft lesson") or line.startswith("```"):
+            continue
+        out.append(f"<h2>{esc(line[4:])}</h2>" if line.startswith("### ") else f"<p>{esc(line)}</p>")
+    flush()
+    return "".join(out)
 
 
 def md_flowables(md: str):
@@ -44,7 +72,7 @@ def md_flowables(md: str):
             bullets.append(line[2:])
             continue
         flush()
-        if not line:
+        if not line or line.startswith("```"):
             continue
         if line.startswith("### "):
             out.append(Paragraph(inline(line[4:]), h3))
@@ -101,16 +129,22 @@ def main():
         sections.append((f"{i}. {m['title']}", flow))
     build_pdf(OUT / "cassava-field-guide.pdf", "Cassava Production Field Guide", cassava["audience"], sections)
 
-    def outline_pdf(name, title, slug):
+    def course_pdf(name, title, slug):
         c = course(seed, slug)
-        secs = [(f"{i}. {m['title']}", [Paragraph(inline(m["lessons"][0]["summary"]), body)]) for i, m in enumerate(c["modules"], 1)]
+        secs = []
+        for i, m in enumerate(c["modules"], 1):
+            lesson = m["lessons"][0]
+            flow = md_flowables(lesson["body"])
+            flow.append(Paragraph("<b>Checklist</b>", h3))
+            flow.append(ListFlowable([ListItem(Paragraph("[ ]  " + inline(x), body)) for x in lesson["checklist"]], bulletType="bullet", start="", leftIndent=12))
+            secs.append((f"{i}. {m['title']}", flow))
         build_pdf(OUT / name, title, c["summary"], secs)
 
-    outline_pdf("teachers-guide-digital-literacy.pdf", "Teacher's Guide to Digital Literacy", "digital-literacy-for-teachers")
-    outline_pdf("intro-cybersecurity-awareness.pdf", "Introduction to Cybersecurity Awareness", "cybersecurity-awareness")
+    course_pdf("teachers-guide-digital-literacy.pdf", "Teacher's Guide to Digital Literacy", "digital-literacy-for-teachers")
+    course_pdf("intro-cybersecurity-awareness.pdf", "Introduction to Cybersecurity Awareness", "cybersecurity-awareness")
 
     biz = course(seed, "start-a-small-business")
-    build_epub(OUT / "small-business-workbook.epub", "Starting a Small Business: Workbook", [(m["title"], f"<p>{m['lessons'][0]['summary']}</p>") for m in biz["modules"]])
+    build_epub(OUT / "small-business-workbook.epub", "Starting a Small Business: Workbook", [(m["title"], md_html(m["lessons"][0]["body"]) + "<h2>Worksheet</h2><ul>" + "".join(f"<li>&#9744; {x}</li>" for x in m["lessons"][0]["checklist"]) + "</ul>") for m in biz["modules"]])
 
     for f in sorted(OUT.iterdir()):
         print(f.name, f.stat().st_size)

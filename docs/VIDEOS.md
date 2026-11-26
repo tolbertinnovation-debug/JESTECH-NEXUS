@@ -1,27 +1,42 @@
-# Lesson videos
+# Lessons and lesson videos
 
-Every lesson in **How to Grow Cassava** has a short narrated video (32–51 seconds, 280–420 KB each,
-3.4 MB for all nine). The files are in `public/videos/grow-cassava/`:
+All **8 courses (51 lessons)** have full lesson text, a checklist and a short narrated video:
+
+| Course | Lessons | Content lives in |
+| --- | --- | --- |
+| How to Grow Cassava (pilot) | 9 | `src/db/seed-data.ts` (text) + `scripts/videos/cassava.mjs` (video script) |
+| AI Literacy and Applied AI | 6 | `src/db/content/ai-literacy.ts` |
+| Web Development Fundamentals | 8 | `src/db/content/web-development.ts` |
+| Cybersecurity Awareness | 5 | `src/db/content/cybersecurity.ts` |
+| Data Analysis Basics | 6 | `src/db/content/data-analysis.ts` |
+| Graphic Design Essentials | 7 | `src/db/content/graphic-design.ts` |
+| Starting a Small Business | 5 | `src/db/content/small-business.ts` |
+| Digital Literacy for Teachers | 5 | `src/db/content/teachers.ts` |
+
+Each file in `src/db/content/` holds the lesson text, checklist and video script together, so a lesson and its video
+always say the same thing. All lessons are **drafts pending review** by a JesTech subject reviewer. Each lesson and
+each video says so.
+
+## The video files
+
+The video files are in `public/videos/<course>/`:
 
 | File | Purpose |
 | --- | --- |
-| `<lesson>.mp4` | 960×540 H.264 video with mono AAC narration, built for mobile data |
+| `<lesson>.mp4` | 960×540 H.264 video with mono AAC narration, built for mobile data (usually 250–500 KB) |
 | `<lesson>.jpg` | Poster image shown before the video plays |
 | `<lesson>.vtt` | English subtitles, on by default |
 
 ## How learners see them
 
-- The video sits at the top of the lesson. **Nothing is downloaded until the learner presses play.**
-- The length and file size are shown up front, so learners know the data cost.
+- **Nothing is downloaded until the learner presses play.** The length and file size are shown up front.
 - **Save lesson and video offline** stores the lesson, the video, its poster and its subtitles on the device.
-  The service worker then plays them without internet.
 
 ## Credits and rights
 
-- **Illustrations and scripts:** JesTech. The scripts follow the lesson text and are a **draft pending review**
-  by agricultural specialists. Every video says so on screen.
-- **Narration:** synthetic voice from [Piper TTS](https://github.com/rhasspy/piper), using the **LibriTTS**
-  voice. LibriTTS is licensed **CC BY 4.0**, so the credit appears under each video and on its end card.
+- **Scripts and illustrations:** JesTech. Illustrations use icons from [Lucide](https://lucide.dev) (ISC licence).
+- **Narration:** synthetic voice from [Piper TTS](https://github.com/rhasspy/piper), using the **LibriTTS** voice
+  (**CC BY 4.0**). The credit appears under each video and on its end card.
 
 ## Adding or replacing a video (Admin)
 
@@ -31,13 +46,13 @@ In **Admin → Courses & lessons → (lesson) → Lesson video**, set:
   privacy-enhanced mode, and only after the learner taps it.
 - **Poster, subtitles, length, file size and credit.**
 
-Only use videos that JesTech owns or has written permission to share. Free farmer-training videos from
-organisations such as Access Agriculture or IITA are good candidates once their terms have been checked.
+Only use videos that JesTech owns or has written permission to share.
 
-## Rebuilding the videos (developers)
+## Changing lessons or rebuilding videos (developers)
 
-The videos are generated from `scripts/videos/cassava.mjs` (the narration and on-screen points) and
-`scripts/videos/art.mjs` (the illustrations). After editing either:
+1. Edit the course file in `src/db/content/`.
+2. Run `npm test`. It checks every lesson is complete and every illustration exists.
+3. Rebuild the videos:
 
 ```bash
 # one-time setup (any folder outside the repo)
@@ -45,11 +60,21 @@ python3 -m venv tts && tts/bin/pip install piper-tts
 curl -L -o libritts.tar.gz https://github.com/rhasspy/piper/releases/download/v0.0.2/voice-en-us-libritts-high.tar.gz
 tar -xzf libritts.tar.gz            # gives en-us-libritts-high.onnx (+ .json)
 
-# build all nine (needs ffmpeg and Playwright with Chromium)
-PIPER=tts/bin/piper PIPER_MODEL=en-us-libritts-high.onnx node scripts/videos/build.mjs
+# build everything, one course, or one lesson (needs ffmpeg and Playwright with Chromium)
+export PIPER=tts/bin/piper PIPER_MODEL=en-us-libritts-high.onnx
+npx tsx scripts/videos/build.mjs
+npx tsx scripts/videos/build.mjs ai-literacy
+npx tsx scripts/videos/build.mjs ai-literacy/what-ai-is
 ```
 
-The build also rewrites `src/db/lesson-videos.json`, which the seed reads.
+The build updates `src/db/lesson-videos.json`. A **fresh database** gets everything from `npm run db:seed`.
 
-For an **existing database**, write a new migration that updates the changed lessons. Use
-`drizzle/0002_lesson_videos_cassava_data.sql` as the pattern; it only fills lessons that have no video yet.
+For **existing databases**, such as the live site, add a data migration:
+
+```bash
+npx drizzle-kit generate --custom --name lesson_updates
+npx tsx scripts/gen-content-migration.ts drizzle/<new file>.sql
+```
+
+The generated migration never overwrites lessons or videos that an admin has edited. Vercel applies it on the
+next deploy.

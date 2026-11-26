@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:00.050 --> 00:00:04.672
+Formulas do the maths for you. Every formula starts with an equals sign.
+
+00:00:05.520 --> 00:00:07.509
+SUM adds up a range of cells.
+
+00:00:08.060 --> 00:00:10.711
+AVERAGE gives the typical value, the mean.
+
+00:00:11.260 --> 00:00:14.793
+MIN and MAX show the smallest and largest values.
+
+00:00:15.340 --> 00:00:19.407
+And COUNTIF counts the rows in one category, like Saturday.
+
+00:00:19.960 --> 00:00:30.384
+Before you move on, check: Use SUM and AVERAGE on a column. Find the MIN and MAX. Try COUNTIF for one category. Check that results make sense.
+
+00:00:31.130 --> 00:00:33.305
+In the next lesson: Charts.

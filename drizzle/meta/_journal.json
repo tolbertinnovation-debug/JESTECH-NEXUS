@@ -22,6 +22,13 @@
       "when": 1795565449472,
       "tag": "0002_lesson_videos_cassava_data",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795569402683,
+      "tag": "0003_full_lessons_and_videos",
+      "breakpoints": true
     }
   ]
 }
