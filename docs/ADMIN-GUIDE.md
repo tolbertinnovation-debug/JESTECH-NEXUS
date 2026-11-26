@@ -36,7 +36,16 @@ Every resource must record its **licence** before it is saved:
 
 Also record the licence details. Do not publish material JesTech does not have the right to share.
 
-Enter the file size in bytes, so visitors see it before they download.
+### Uploading a file
+
+1. Open **Admin → Library** (or an existing resource) and press **Upload a file**.
+2. Choose a PDF, EPUB, video (MP4/WebM) or audio file (MP3/M4A/OGG), up to 100 MB.
+3. When it reaches 100%, the **file link**, **file size** and **format** are filled in for you. For PDFs, the
+   **read-online link** is too.
+4. Complete the other fields and press **Save** (or **Create resource**). The file isn't attached until you save.
+
+Uploaded files can be opened by anyone who has the link, even while the resource is a draft. Don't upload
+private documents. You can still paste a link (`https://…` or `/files/…`) instead of uploading.
 
 ## Experts
 

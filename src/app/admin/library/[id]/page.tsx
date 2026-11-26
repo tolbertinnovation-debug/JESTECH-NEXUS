@@ -5,6 +5,7 @@ import { AdminForm } from "@/components/admin-form";
 import { ResourceFields } from "@/components/admin-fields";
 import { AdminTitle, InlineAction, Panel, StatusBadge } from "@/components/admin-ui";
 import { requireUser } from "@/lib/auth";
+import { maxUploadBytes, storageMode } from "@/lib/storage";
 import { can } from "@/lib/rbac";
 import { saveResourceAction, setResourceStatusAction } from "@/modules/admin/actions";
 import { getResourceForEdit } from "@/modules/admin/queries";
@@ -47,7 +48,7 @@ async function EditResource({ params }: Props) {
       </AdminTitle>
       <Panel>
         <AdminForm action={saveResourceAction}>
-          <ResourceFields r={r} />
+          <ResourceFields r={r} upload={{ mode: storageMode(), maxBytes: maxUploadBytes() }} />
         </AdminForm>
       </Panel>
     </>

@@ -6,6 +6,7 @@ import { SaveOfflineButton } from "@/components/offline";
 import { Badge, buttonClass } from "@/components/ui";
 import { formatBytes, licenceLabel, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { getResource, getResourceSlugs } from "@/modules/library/queries";
+import { downloadHref } from "@/lib/storage";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -64,7 +65,7 @@ export default async function ResourcePage({ params }: Props) {
         )}
         {r.downloadable && r.fileUrl && (
           <>
-            <a href={r.fileUrl} download className={buttonClass("secondary")}>
+            <a href={downloadHref(r.fileUrl)} download className={buttonClass("secondary")}>
               <Download className="size-4" aria-hidden /> Download for offline ({formatBytes(r.sizeBytes)})
             </a>
             <SaveOfflineButton urls={[`/library/${r.slug}`, r.fileUrl]} title={r.title} label="Save in app" />

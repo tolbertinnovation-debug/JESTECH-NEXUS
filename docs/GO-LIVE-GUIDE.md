@@ -101,6 +101,11 @@ need the SQL Editor again for this.
 
 ## Part 5: First things to do in Admin
 
+- **Library file uploads (5 minutes):** in Vercel, open your project → **Storage** → **Create Database** →
+  **Blob** → name it `jestech-nexus-files` → **Create**, and connect it to **Production** and **Preview**.
+  Then **Redeploy**. Now **Admin → Library → Upload a file** works. Vercel creates the storage key
+  itself, so you don't copy or paste anything.
+
 - **Experts:** add real experts and approve them only after confirming identity, qualifications and consent.
   The public Experts page is empty until you do.
 - **Partners:** add organisations only once a formal agreement exists. The page shows a "partner with us"

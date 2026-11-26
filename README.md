@@ -45,4 +45,4 @@ Dev accounts (password `nexus-dev-2026`, development only):
 
 Next.js 16 (App Router, Cache Components) · TypeScript · Tailwind CSS 4 · PostgreSQL with Drizzle ORM ·
 Zod validation · lucide icons · a service worker for offline lessons and files.
-Planned hosting: Vercel + Neon (Postgres) + Cloudflare R2 (files) + Resend (email). See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Planned hosting: Vercel + Neon (Postgres) + Vercel Blob (library uploads) + Resend (email). See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).

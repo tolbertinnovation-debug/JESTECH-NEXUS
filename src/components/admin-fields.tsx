@@ -1,5 +1,7 @@
 import type { Course, Resource } from "@/db/schema";
+import type { StorageMode } from "@/lib/storage";
 import { courseIcons } from "./brand";
+import { FileUpload } from "./file-upload";
 import { Field, Input, Select, Textarea } from "./ui";
 
 export function CourseFields({ c, resources }: { c?: Course; resources: Array<{ id: string; title: string }> }) {
@@ -83,7 +85,7 @@ export function CourseFields({ c, resources }: { c?: Course; resources: Array<{ 
   );
 }
 
-export function ResourceFields({ r }: { r?: Resource }) {
+export function ResourceFields({ r, upload }: { r?: Resource; upload: { mode: StorageMode; maxBytes: number } }) {
   return (
     <>
       <input type="hidden" name="id" value={r?.id ?? ""} />
@@ -149,17 +151,21 @@ export function ResourceFields({ r }: { r?: Resource }) {
           </Field>
         </div>
       </fieldset>
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Field label="File link" htmlFor="fileUrl" hint="https://… or /files/…">
-          <Input id="fileUrl" name="fileUrl" defaultValue={r?.fileUrl ?? ""} />
-        </Field>
-        <Field label="File size (bytes)" htmlFor="sizeBytes" hint="Shown to users before download">
-          <Input id="sizeBytes" name="sizeBytes" type="number" min={0} defaultValue={r?.sizeBytes ?? ""} />
-        </Field>
-        <Field label="Read-online link" htmlFor="readOnlineUrl">
-          <Input id="readOnlineUrl" name="readOnlineUrl" defaultValue={r?.readOnlineUrl ?? ""} />
-        </Field>
-      </div>
+      <fieldset className="space-y-4">
+        <legend className="mb-2 text-sm font-semibold">File</legend>
+        <FileUpload mode={upload.mode} maxBytes={upload.maxBytes} />
+        <div className="grid gap-4 sm:grid-cols-3">
+          <Field label="File link" htmlFor="fileUrl" hint="Filled in by the upload, or paste https://… or /files/…">
+            <Input id="fileUrl" name="fileUrl" defaultValue={r?.fileUrl ?? ""} />
+          </Field>
+          <Field label="File size (bytes)" htmlFor="sizeBytes" hint="Shown to users before download">
+            <Input id="sizeBytes" name="sizeBytes" type="number" min={0} defaultValue={r?.sizeBytes ?? ""} />
+          </Field>
+          <Field label="Read-online link" htmlFor="readOnlineUrl">
+            <Input id="readOnlineUrl" name="readOnlineUrl" defaultValue={r?.readOnlineUrl ?? ""} />
+          </Field>
+        </div>
+      </fieldset>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Reviewed by" htmlFor="reviewedBy">
           <Input id="reviewedBy" name="reviewedBy" defaultValue={r?.reviewedBy ?? ""} />
