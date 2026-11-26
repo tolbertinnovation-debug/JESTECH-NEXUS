@@ -29,6 +29,13 @@
       "when": 1795569402683,
       "tag": "0003_full_lessons_and_videos",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795695100483,
+      "tag": "0004_assistant_usage",
+      "breakpoints": true
     }
   ]
 }

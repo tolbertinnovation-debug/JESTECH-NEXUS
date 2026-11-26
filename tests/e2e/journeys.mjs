@@ -120,6 +120,17 @@ const learner = await learnerCtx.newPage();
   await learner.goto(`${BASE}/courses/grow-cassava/lessons/choosing-a-good-site`);
   const videoRes = await learner.request.get(`${BASE}/videos/grow-cassava/choosing-a-good-site.mp4`);
   check(videoRes.ok() && Number(videoRes.headers()["content-length"]) < 1_000_000, "lesson video file is served and under 1 MB");
+
+  // Ask Grandpa: the AI tutor answers about the current lesson (mock provider in tests).
+  await learner.getByRole("button", { name: "Ask Grandpa" }).click();
+  const chat = learner.getByRole("dialog", { name: /Ask Grandpa/ });
+  await chat.getByRole("button", { name: "Explain this lesson simply" }).click();
+  check(await visible(chat.getByText(/This is about Choosing a good site/)), "Ask Grandpa answers about the current lesson");
+  check((await chat.locator("strong", { hasText: "Good question!" }).count()) === 1, "Ask Grandpa formats its answer");
+  await chat.getByLabel("Your question").fill("And what about rain?");
+  await chat.getByRole("button", { name: "Send question" }).click();
+  check(await visible(chat.getByText(/You asked: "And what about rain\?"/)), "Ask Grandpa keeps the conversation going");
+  await chat.getByRole("button", { name: "Close" }).click();
   for (let i = 0; i < 9; i++) {
     const btn = learner.getByRole("button", { name: "Mark lesson complete" });
     await btn.waitFor();
@@ -232,6 +243,10 @@ const learner = await learnerCtx.newPage();
   await learner.goto(`${BASE}/admin`);
   await learner.waitForURL(/\/dashboard\?denied=1/);
   check(true, "students cannot open admin");
+  await anon.goto(`${BASE}/courses/grow-cassava/lessons/preparing-the-land`);
+  await anon.getByRole("button", { name: "Ask Grandpa" }).click();
+  await anon.getByRole("button", { name: "Quiz me with 3 questions" }).click();
+  check(await visible(anon.getByText(/Please log in to ask Grandpa/)), "Ask Grandpa asks visitors to log in");
   await anon.goto(`${BASE}/partners`);
   await anon.getByText(/Partners will be listed here/).waitFor();
   check((await anon.getByText("Example Pending Partner").count()) === 0, "pending partner is not listed publicly");

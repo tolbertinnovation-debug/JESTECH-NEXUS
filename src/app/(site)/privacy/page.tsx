@@ -24,6 +24,13 @@ export default function PrivacyPage() {
         </ul>
         <h3>Expert and partner profiles</h3>
         <p>Profiles are published only with the person&apos;s or organisation&apos;s consent and after admin verification.</p>
+        <h3>Ask Grandpa (AI tutor)</h3>
+        <p>
+          When you ask Grandpa a question, your question, the recent conversation and the text of the lesson you are on
+          are sent to our AI provider, Grandpa AI, to write the answer. JesTech does not store your questions or the
+          answers; we only count how many questions each learner asks per day, to keep the service fair. Never type
+          passwords, PINs or private details into the chat.
+        </p>
         <h3>Files saved offline</h3>
         <p>Lessons and files you save offline are stored only on your device and can be removed at any time.</p>
       </div>

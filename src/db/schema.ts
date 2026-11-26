@@ -420,6 +420,19 @@ export const issueReports = pgTable("issue_reports", {
   createdAt: createdAt(),
 });
 
+/** Daily count of "Ask Grandpa" questions per learner (rate limiting). Question text is not stored. */
+export const assistantUsage = pgTable(
+  "assistant_usage",
+  {
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    day: text("day").notNull(), // YYYY-MM-DD (UTC)
+    count: integer("count").notNull().default(0),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.day] })],
+);
+
 export const auditLog = pgTable("audit_log", {
   id: id(),
   actorId: uuid("actor_id").references(() => users.id, { onDelete: "set null" }),

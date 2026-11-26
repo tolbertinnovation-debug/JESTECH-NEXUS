@@ -20,6 +20,9 @@ jobs:
           --health-cmd "pg_isready -U nexus" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       DATABASE_URL: postgres://nexus:nexus@localhost:5432/nexus
+      # Stand-in for the Grandpa AI API (tests/e2e/mock-ai.mjs); real keys live only in Vercel.
+      GRANDPA_AI_API_URL: http://localhost:4010/v1
+      GRANDPA_AI_API_KEY: test-key
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,5 +40,6 @@ jobs:
         run: |
           npm install -g playwright
           npx playwright install --with-deps chromium
+          (node tests/e2e/mock-ai.mjs 4010 &)
           (npm start &) && npx --yes wait-on http://localhost:3000 --timeout 60000
           NODE_PATH=$(npm root -g) npm run test:e2e
