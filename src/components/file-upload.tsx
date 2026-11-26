@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { CheckCircle2, CloudUpload, FileWarning } from "lucide-react";
 import { formatBytes } from "@/lib/format";
 import { UPLOAD_ACCEPT, UPLOAD_TYPES, safeFileName, uploadTypeOf, type StorageMode } from "@/lib/storage";
@@ -10,6 +10,8 @@ type Status =
   | { kind: "uploading"; name: string; percent: number }
   | { kind: "done"; name: string; size: number }
   | { kind: "error"; message: string };
+
+const noopSubscribe = () => () => {};
 
 /** Sets a form field's value as if the admin had typed it. */
 function setField(id: string, value: string, onlyIfEmpty = false) {
@@ -27,6 +29,8 @@ function setField(id: string, value: string, onlyIfEmpty = false) {
 export function FileUpload({ mode, maxBytes }: { mode: StorageMode; maxBytes: number }) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const input = useRef<HTMLInputElement>(null);
+  // Until the page's JavaScript has loaded, picking a file would do nothing, so keep the button off.
+  const ready = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   if (mode === "none") {
     return (
@@ -100,7 +104,7 @@ export function FileUpload({ mode, maxBytes }: { mode: StorageMode; maxBytes: nu
             accept={UPLOAD_ACCEPT}
             className="sr-only"
             data-testid="library-file-input"
-            disabled={status.kind === "uploading"}
+            disabled={!ready || status.kind === "uploading"}
             onChange={(e) => {
               const f = e.currentTarget.files?.[0];
               if (f) void onPick(f);

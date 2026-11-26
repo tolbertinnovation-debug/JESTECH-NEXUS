@@ -237,7 +237,9 @@ const learner = await learnerCtx.newPage();
 
   /* ---------- Library file upload ---------- */
   await admin.goto(`${BASE}/admin/library`);
-  const fileInput = admin.getByTestId("library-file-input");
+  // The upload button turns on once the page's JavaScript has loaded.
+  const fileInput = admin.locator('[data-testid="library-file-input"]:not([disabled])');
+  await fileInput.waitFor({ state: "attached" });
   await fileInput.setInputFiles({ name: "not-really.pdf", mimeType: "application/pdf", buffer: Buffer.from("<html><script>alert(1)</script>") });
   check(await visible(admin.getByText(/doesn't look like a real PDF/)), "upload rejects a file pretending to be a PDF");
   const pdf = Buffer.from("%PDF-1.4\n1 0 obj << /Type /Catalog >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF\n");
