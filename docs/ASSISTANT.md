@@ -23,6 +23,20 @@ the course or the lesson they are on.
 The chat panel's code only downloads when a learner taps the button, so lesson pages stay light. The conversation
 is kept in the browser tab only (`sessionStorage`). JesTech stores no question text, only a daily count per learner.
 
+## When Grandpa AI's allowance runs out
+
+Grandpa AI has its own spending allowance. When it is used up, the API answers with error 429 (or a message about
+its allowance, quota or credit). Ask Grandpa then:
+
+- shows learners a friendly message: *"Grandpa has answered a lot of questions today and is resting. Please try
+  again later, or ask your mentor."* The question does not count towards the learner's daily limit.
+- **pauses** for the wait Grandpa AI suggests (`Retry-After`), or 30 minutes if it suggests none, and at most
+  6 hours. During the pause it answers straight away with the same message instead of calling Grandpa AI again.
+  The pause is stored in the `app_state` table, so every server instance respects it.
+
+To check or raise the allowance, use your Grandpa AI account. The Vercel logs show
+`[assistant] AI provider responded 429: …` when this happens.
+
 ## Turning it on (Vercel)
 
 In **Vercel → Project → Settings → Environment Variables**, add the following, then **Redeploy**:

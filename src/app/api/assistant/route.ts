@@ -1,7 +1,7 @@
 import { sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db";
-import { assistantUsage } from "@/db/schema";
+import { appState, assistantUsage } from "@/db/schema";
 import { getCurrentUser } from "@/lib/auth";
 import { AssistantUnavailableError, assistantConfigured, streamReply } from "@/lib/assistant/provider";
 import { trimConversation, tutorSystemPrompt, type LessonContext } from "@/lib/assistant/tutor";
@@ -25,6 +25,36 @@ const bodySchema = z.object({
 
 const json = (status: number, error: string) =>
   Response.json({ error }, { status, headers: { "Cache-Control": "no-store" } });
+
+/** Shown when Grandpa AI's own spending allowance or rate limit is used up. */
+const RESTING =
+  "Grandpa has answered a lot of questions today and is resting. Please try again later, or ask your mentor.";
+
+/**
+ * While the provider is out of allowance we pause Ask Grandpa (stored in app_state, shared by all
+ * server instances) instead of calling it for every question.
+ */
+const PAUSE_KEY = "assistant_paused_until";
+const DEFAULT_PAUSE_SEC = 30 * 60;
+const MAX_PAUSE_SEC = 6 * 60 * 60;
+
+async function pausedNow(): Promise<boolean> {
+  const [row] = await db
+    .select({ paused: sql<boolean>`${appState.value}::timestamptz > now()` })
+    .from(appState)
+    .where(sql`${appState.key} = ${PAUSE_KEY}`)
+    .limit(1);
+  return row?.paused ?? false;
+}
+
+async function pauseFor(seconds: number) {
+  const secs = Math.min(MAX_PAUSE_SEC, Math.max(60, Math.round(seconds)));
+  const until = sql`to_char((now() + make_interval(secs => ${secs})) at time zone 'utc', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`;
+  await db
+    .insert(appState)
+    .values({ key: PAUSE_KEY, value: until })
+    .onConflictDoUpdate({ target: appState.key, set: { value: until } });
+}
 
 export async function POST(request: Request) {
   if (!assistantConfigured()) return json(503, "Ask Grandpa is not available yet.");
@@ -53,6 +83,8 @@ export async function POST(request: Request) {
       checklist: row.lesson.checklist,
     });
   }
+
+  if (await pausedNow()) return json(503, RESTING);
 
   // Count the question first (atomic upsert), then refuse if over today's limit.
   const [usage] = await db
@@ -84,6 +116,10 @@ export async function POST(request: Request) {
         .update(assistantUsage)
         .set({ count: sql`greatest(${assistantUsage.count} - 1, 0)` })
         .where(sql`${assistantUsage.userId} = ${user.id} and ${assistantUsage.day} = to_char(now() at time zone 'utc', 'YYYY-MM-DD')`);
+      if (e.outOfAllowance) {
+        await pauseFor(e.retryAfterSec ?? DEFAULT_PAUSE_SEC);
+        return json(503, RESTING);
+      }
       return json(502, "Grandpa can't answer right now. Please try again in a minute.");
     }
     throw e;
