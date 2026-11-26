@@ -235,6 +235,49 @@ const learner = await learnerCtx.newPage();
   await anon.goto(`${BASE}/courses/solar-basics`);
   check(await visible(anon.getByRole("heading", { name: "Solar Basics for Communities" })), "published course is live");
 
+  /* ---------- Library file upload ---------- */
+  await admin.goto(`${BASE}/admin/library`);
+  // The upload button turns on once the page's JavaScript has loaded.
+  const fileInput = admin.locator('[data-testid="library-file-input"]:not([disabled])');
+  await fileInput.waitFor({ state: "attached" });
+  await fileInput.setInputFiles({ name: "not-really.pdf", mimeType: "application/pdf", buffer: Buffer.from("<html><script>alert(1)</script>") });
+  check(await visible(admin.getByText(/doesn't look like a real PDF/)), "upload rejects a file pretending to be a PDF");
+  const pdf = Buffer.from("%PDF-1.4\n1 0 obj << /Type /Catalog >> endobj\ntrailer << /Root 1 0 R >>\n%%EOF\n");
+  await fileInput.setInputFiles({ name: "Solar Panel Care Guide.pdf", mimeType: "application/pdf", buffer: pdf });
+  await admin.getByTestId("upload-done").waitFor();
+  const fileUrl = await admin.locator("#fileUrl").inputValue();
+  check(/^\/uploads\/solar-panel-care-guide-[0-9a-f]{10}\.pdf$/.test(fileUrl), `upload fills in the file link (${fileUrl})`);
+  check((await admin.locator("#sizeBytes").inputValue()) === String(pdf.length), "upload fills in the file size");
+  check((await admin.locator("#readOnlineUrl").inputValue()) === fileUrl, "PDF upload fills in the read-online link");
+  await admin.locator("#title").fill("Solar Panel Care Guide");
+  await admin.locator("#slug").fill("solar-panel-care");
+  await admin.locator("#description").fill("How to clean and look after small solar panels.");
+  await admin.locator("#licence").selectOption("OWNED");
+  await admin.locator("#licenceNote").fill("Written by JesTech staff");
+  await admin.getByRole("button", { name: "Create resource" }).click();
+  await admin.waitForURL(/\/admin\/library\/[0-9a-f-]{36}$/, { timeout: 15000 });
+  await Promise.all([
+    admin.waitForResponse((r) => r.request().method() === "POST"),
+    admin.getByRole("button", { name: "Publish" }).click(),
+  ]);
+  await anon.goto(`${BASE}/library/solar-panel-care`);
+  const dl = anon.getByRole("link", { name: /Download for offline/ });
+  await dl.waitFor();
+  const href = await dl.getAttribute("href");
+  check(href === `${fileUrl}?download=1`, "published resource links to the uploaded file");
+  const got = await anon.request.get(`${BASE}${href}`);
+  check(
+    got.ok() && got.headers()["content-type"] === "application/pdf" && /attachment/.test(got.headers()["content-disposition"] ?? "") &&
+      (await got.body()).equals(pdf),
+    "uploaded file downloads intact",
+  );
+  const part = await anon.request.get(`${BASE}${fileUrl}`, { headers: { Range: "bytes=0-4" } });
+  check(part.status() === 206 && (await part.text()) === "%PDF-", "uploaded files support partial downloads");
+  const denied = await learner.request.post(`${BASE}/api/uploads`, {
+    multipart: { file: { name: "x.pdf", mimeType: "application/pdf", buffer: pdf } },
+  });
+  check(denied.status() === 403, "students cannot upload files");
+
   /* ---------- Access control ---------- */
   const anonDash = await browser.newPage();
   await anonDash.goto(`${BASE}/admin`);

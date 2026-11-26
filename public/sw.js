@@ -1,9 +1,9 @@
 /* JesTech Nexus service worker — keeps saved lessons and files usable without internet.
- * - "nexus-saved": things the learner explicitly saved (lessons, PDFs). Never evicted automatically.
+ * - "nexus-saved": things the learner explicitly saved (lessons, PDFs, uploaded files). Never evicted automatically.
  * - "nexus-static": hashed build assets (CSS/JS/fonts), cache-first.
  * - "nexus-pages": last copy of visited pages, used only when the network fails.
  */
-const VERSION = "v2";
+const VERSION = "v3";
 const STATIC = `nexus-static-${VERSION}`;
 const PAGES = `nexus-pages-${VERSION}`;
 const SAVED = "nexus-saved";
@@ -37,6 +37,12 @@ self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
   const url = new URL(request.url);
+
+  // Uploaded library files live in cloud storage (Vercel Blob): use the saved copy when there is one.
+  if (url.hostname.endsWith(".public.blob.vercel-storage.com")) {
+    event.respondWith(fromSaved(request).then((hit) => hit || fetch(request)));
+    return;
+  }
   if (url.origin !== self.location.origin) return;
 
   // Immutable build assets: cache-first.
@@ -58,7 +64,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   // Library files and lesson videos: serve a saved copy first (no data used), else network.
-  if (url.pathname.startsWith("/files/") || url.pathname.startsWith("/videos/")) {
+  if (["/files/", "/videos/", "/uploads/"].some((p) => url.pathname.startsWith(p))) {
     event.respondWith(fromSaved(request).then((hit) => hit || fetch(request)));
     return;
   }

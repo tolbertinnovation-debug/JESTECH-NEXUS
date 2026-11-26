@@ -4,6 +4,7 @@ import { AdminForm } from "@/components/admin-form";
 import { ResourceFields } from "@/components/admin-fields";
 import { AdminTitle, Panel, StatusBadge, Table, Td } from "@/components/admin-ui";
 import { requireUser } from "@/lib/auth";
+import { maxUploadBytes, storageMode } from "@/lib/storage";
 import { formatBytes, licenceLabel } from "@/lib/format";
 import { saveResourceAction } from "@/modules/admin/actions";
 import { listResources } from "@/modules/admin/queries";
@@ -48,11 +49,11 @@ async function Library() {
       </Table>
       <Panel title="New resource" className="mt-6">
         <p className="mb-4 text-sm text-subtle">
-          File uploads will connect to cloud storage (Cloudflare R2) at deployment. Until then, link to a file under
-          /files/ or an https:// address.
+          Upload the file (PDF, EPUB, video or audio) and its link, size and format fill in for you. New resources
+          stay drafts until they are published.
         </p>
         <AdminForm action={saveResourceAction} submitLabel="Create resource">
-          <ResourceFields />
+          <ResourceFields upload={{ mode: storageMode(), maxBytes: maxUploadBytes() }} />
         </AdminForm>
       </Panel>
     </>

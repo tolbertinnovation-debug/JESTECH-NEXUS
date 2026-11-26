@@ -11,6 +11,7 @@ import { formatBytes, formatDuration, formatLabel, levelLabel, percent, atLeastO
 import { flattenLessons, getCourse, getPublishedCourseSlugs, type CourseWithModules } from "@/modules/courses/queries";
 import { enrolAction } from "@/modules/learning/actions";
 import { getCourseProgress } from "@/modules/learning/queries";
+import { downloadHref } from "@/lib/storage";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -55,7 +56,7 @@ export default async function CoursePage({ params }: Props) {
             </Suspense>
             {course.guide?.fileUrl && (
               <a
-                href={course.guide.fileUrl}
+                href={downloadHref(course.guide.fileUrl)}
                 download
                 className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-md border border-ink px-4 text-sm font-semibold hover:bg-mist"
               >

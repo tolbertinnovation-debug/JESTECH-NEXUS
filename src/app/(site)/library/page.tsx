@@ -12,6 +12,7 @@ import {
   getLibraryLanguages,
   searchLibrary,
 } from "@/modules/library/queries";
+import { downloadHref } from "@/lib/storage";
 
 export const metadata: Metadata = {
   title: "Digital library",
@@ -109,7 +110,7 @@ async function LibraryResults({ searchParams }: Props) {
                     </ButtonLink>
                   )}
                   {r.downloadable && r.fileUrl && (
-                    <a href={r.fileUrl} download className={buttonClass("secondary", "sm", "flex-1")}>
+                    <a href={downloadHref(r.fileUrl)} download className={buttonClass("secondary", "sm", "flex-1")}>
                       <Download className="size-4" aria-hidden /> Download
                     </a>
                   )}

@@ -46,8 +46,31 @@ psql "$DATABASE_URL" -c "update users set role='ADMIN' where email='you@jestech.
 
 After that, manage all other roles from **Admin → Users and roles**.
 
-## 5. Not yet connected (next phase)
+## 5. Library file uploads: Vercel Blob
 
-- **File uploads.** Library files currently live in `public/files/` or at external `https://` links.
-  Cloudflare R2 with signed upload and download links comes next.
+Admins and editors upload library files (PDF, EPUB, MP4/WebM video, MP3/M4A/OGG audio) from
+**Admin → Library**. Files go straight from the browser to Vercel Blob, so large files skip the
+server's 4.5 MB request limit.
+
+1. In Vercel, open the project → **Storage** → **Create Database** → **Blob** → name it
+   `jestech-nexus-files` → **Create**.
+2. Connect it to the project for **Production** and **Preview**. Vercel adds `BLOB_READ_WRITE_TOKEN`
+   for you. Never paste that token anywhere else.
+3. **Redeploy** (Deployments → ⋯ → Redeploy) so the site picks it up.
+
+Until a store is connected, the upload box says uploads are off and admins can still paste links.
+
+Settings and limits:
+
+- `UPLOAD_MAX_MB` (optional, default 100) sets the largest file accepted.
+- Only signed-in editors and admins can get an upload token, and only for the file types above.
+- Uploaded files are public to anyone with the link. The link contains a random part, so it can't be guessed.
+  Drafts are hidden in the site, but their files are not secret: don't upload anything private.
+- Replacing a file does not delete the old copy. Remove unused files in Vercel → Storage → Blob if space matters.
+- There is no virus scanning yet. Upload only files from sources you trust.
+- Without Vercel (on your own server), uploads are saved to disk in `UPLOAD_DIR` (default `.data/uploads`)
+  and served from `/uploads/…`. Back that folder up.
+
+## 6. Not yet connected (next phase)
+
 - **Password reset by email.** This needs Resend to be configured first.

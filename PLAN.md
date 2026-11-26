@@ -268,7 +268,7 @@ domain (`nexus.jestech.org`?), hosting/storage/email accounts, and real course/l
 | M3 Digital library | ✅ Search + filters, resource detail with source/date/licence/size, read online, download, Save offline (service worker) |
 | M4 Experts, partners, innovation | ✅ Approved-only listings, consultation / partnership / solution forms with consent, honeypot and rate limit, email hook |
 | M5 Admin & mentor | ✅ Overview, course/module/lesson editor, Draft → Review → Published workflow, library rights, expert/partner verification, innovation, inquiries, issue reports, users & roles, mentor assignment, audit log |
-| M6 Hardening & handover | 🟡 E2E journeys (21 checks) passing; docs written. Remaining: R2 file uploads, password reset email, Lighthouse/axe in CI, real content and reviewers |
+| M6 Hardening & handover | 🟡 E2E journeys (21 checks) passing; docs written. Library uploads done (Vercel Blob). Remaining: password reset email, Lighthouse/axe in CI, real content and reviewers |
 
 **Page weight (measured, Pixel 5, first visit):** ~235 KB compressed, of which ~150 KB is the React/Next.js runtime and
 ~64 KB fonts; later page navigations fetch ~6–10 KB. The 150 KB first-load budget in §6 is not achievable with
