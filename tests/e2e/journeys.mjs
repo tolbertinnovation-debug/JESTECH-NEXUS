@@ -252,6 +252,22 @@ const learner = await learnerCtx.newPage();
   check((await anon.getByText("Example Pending Partner").count()) === 0, "pending partner is not listed publicly");
 }
 
+/* ---------- Ask Grandpa when the AI provider's allowance is used up (runs last: it pauses the tutor) ---------- */
+{
+  const callsBefore = (await (await fetch("http://localhost:4010/calls")).json()).calls;
+  await learner.goto(`${BASE}/courses/grow-cassava/lessons/preparing-the-land`);
+  await learner.getByRole("button", { name: "Ask Grandpa" }).click();
+  const chat = learner.getByRole("dialog", { name: /Ask Grandpa/ });
+  await chat.getByLabel("Your question").fill("Test __out_of_allowance__");
+  await chat.getByRole("button", { name: "Send question" }).click();
+  check(await visible(chat.getByText(/Grandpa has answered a lot of questions today and is resting/)), "Ask Grandpa shows the resting message when the allowance is used up");
+  await chat.getByLabel("Your question").fill("A normal question");
+  await chat.getByRole("button", { name: "Send question" }).click();
+  await chat.getByText(/is resting/).first().waitFor();
+  const callsAfter = (await (await fetch("http://localhost:4010/calls")).json()).calls;
+  check(callsAfter - callsBefore === 1, `Ask Grandpa pauses instead of calling the AI again (calls: ${callsAfter - callsBefore})`);
+}
+
 await browser.close();
 console.log(failures ? `\n${failures} check(s) failed` : "\nAll checks passed");
 process.exit(failures ? 1 : 0);

@@ -433,6 +433,13 @@ export const assistantUsage = pgTable(
   (t) => [primaryKey({ columns: [t.userId, t.day] })],
 );
 
+/** Small key/value store for app-wide state, e.g. pausing Ask Grandpa when the provider's allowance runs out. */
+export const appState = pgTable("app_state", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedAt: updatedAt(),
+});
+
 export const auditLog = pgTable("audit_log", {
   id: id(),
   actorId: uuid("actor_id").references(() => users.id, { onDelete: "set null" }),

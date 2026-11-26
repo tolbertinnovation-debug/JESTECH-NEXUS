@@ -75,6 +75,25 @@ describe("Grandpa AI provider", () => {
     }
   });
 
+  it("recognises an exhausted allowance and the suggested wait", async () => {
+    stubFetch(
+      new Response(JSON.stringify({ error: { message: "The Grandpa AI API has used its spending allowance for today." } }), {
+        status: 429,
+        headers: { "Retry-After": "120" },
+      }),
+    );
+    const err = await streamReply([{ role: "user", content: "?" }]).catch((e) => e);
+    expect(err.outOfAllowance).toBe(true);
+    expect(err.status).toBe(429);
+    expect(err.retryAfterSec).toBe(120);
+  });
+
+  it("does not treat ordinary failures as an exhausted allowance", async () => {
+    stubFetch(new Response("server error", { status: 500 }));
+    const err = await streamReply([{ role: "user", content: "?" }]).catch((e) => e);
+    expect(err.outOfAllowance).toBe(false);
+  });
+
   it("reports provider errors without leaking the key", async () => {
     stubFetch(new Response("unauthorised", { status: 401 }));
     const err = await streamReply([{ role: "user", content: "?" }]).catch((e) => e);

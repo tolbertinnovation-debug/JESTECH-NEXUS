@@ -15,7 +15,31 @@ import "server-only";
 
 export type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
-export class AssistantUnavailableError extends Error {}
+export class AssistantUnavailableError extends Error {
+  constructor(
+    message: string,
+    /** HTTP status from the provider, if it answered */
+    readonly status?: number,
+    /** Seconds the provider asked us to wait (Retry-After), if given */
+    readonly retryAfterSec?: number,
+  ) {
+    super(message);
+  }
+
+  /** True when the provider's spending allowance, quota or rate limit is used up. */
+  get outOfAllowance(): boolean {
+    return this.status === 429 || /allowance|quota|spending|credit|rate limit|insufficient/i.test(this.message);
+  }
+}
+
+function retryAfter(res: Response): number | undefined {
+  const v = res.headers.get("retry-after");
+  if (!v) return undefined;
+  const secs = Number(v);
+  if (Number.isFinite(secs)) return secs;
+  const at = Date.parse(v);
+  return Number.isFinite(at) ? Math.max(0, Math.round((at - Date.now()) / 1000)) : undefined;
+}
 
 export function assistantConfigured(): boolean {
   return Boolean(process.env.GRANDPA_AI_API_KEY && process.env.GRANDPA_AI_API_URL);
@@ -96,7 +120,7 @@ export async function streamReply(messages: ChatMessage[], signal?: AbortSignal)
   }
   if (!res.ok || !res.body) {
     const detail = await res.text().catch(() => "");
-    throw new AssistantUnavailableError(`AI provider responded ${res.status}: ${detail.slice(0, 200)}`);
+    throw new AssistantUnavailableError(`AI provider responded ${res.status}: ${detail.slice(0, 200)}`, res.status, retryAfter(res));
   }
 
   const encoder = new TextEncoder();
