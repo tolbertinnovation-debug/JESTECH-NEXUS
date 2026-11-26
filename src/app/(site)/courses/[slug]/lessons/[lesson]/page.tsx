@@ -4,10 +4,12 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock, ListChecks, PlayCircle } from "lucide-react";
 import { CourseIcon } from "@/components/brand";
+import { AskGrandpa } from "@/components/ask-grandpa";
 import { LessonVideo } from "@/components/lesson-video";
 import { Markdown } from "@/components/markdown";
 import { SaveOfflineButton } from "@/components/offline";
 import { Button, ButtonLink, ProgressBar } from "@/components/ui";
+import { assistantConfigured } from "@/lib/assistant/provider";
 import { getCurrentUser } from "@/lib/auth";
 import { formatBytes, formatDuration, percent, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { flattenLessons, getAllLessonParams, getCourse, getLesson } from "@/modules/courses/queries";
@@ -171,6 +173,19 @@ export default async function LessonPage({ params }: Props) {
           )}
         </nav>
       </div>
+      {assistantConfigured() && (
+        <AskGrandpa
+          courseSlug={slug}
+          lessonSlug={lesson.slug}
+          topic={lesson.title}
+          suggestions={[
+            "Explain this lesson simply",
+            "Give me a local example",
+            "Quiz me with 3 questions",
+            ...(lesson.checklist[0] ? [`Help me: ${lesson.checklist[0]}`] : []),
+          ]}
+        />
+      )}
     </article>
   );
 }

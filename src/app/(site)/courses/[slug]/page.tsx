@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Check, CheckCircle2, Download, FileText, ListChecks, PlayCircle, ShieldCheck } from "lucide-react";
+import { AskGrandpa } from "@/components/ask-grandpa";
 import { Badge, Button, ButtonLink, Card, ProgressBar } from "@/components/ui";
+import { assistantConfigured } from "@/lib/assistant/provider";
 import { getCurrentUser } from "@/lib/auth";
 import { formatBytes, formatDuration, formatLabel, levelLabel, percent, atLeastOne, PLACEHOLDER_SLUG } from "@/lib/format";
 import { flattenLessons, getCourse, getPublishedCourseSlugs, type CourseWithModules } from "@/modules/courses/queries";
@@ -125,6 +127,13 @@ export default async function CoursePage({ params }: Props) {
           )}
         </aside>
       </div>
+      {assistantConfigured() && (
+        <AskGrandpa
+          courseSlug={course.slug}
+          topic={course.title}
+          suggestions={["What will I learn in this course?", "Which lesson should I start with?", "Is this course right for me?"]}
+        />
+      )}
     </>
   );
 }
